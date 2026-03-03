@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Forum - Free Speech Area</title>
+    <!-- No CSS at all - Shi will handle all styling later -->
+</head>
+<body>
+    <!-- Main free speech area container -->
+    <div id="freeSpeechContainer">
+        
+        <!-- Button to enter/exit free speech area -->
+        <button id="toggleChatBtn">Free Speech Area</button>
+        
+        <!-- Chat interface (hidden by default) -->
+        <div id="chatInterface" hidden>
+            
+            <!-- Student ID input section -->
+            <div id="loginSection">
+                <p>Enter your 8-digit student ID:</p>
+                <input type="text" id="studentId" placeholder="12345678" maxlength="8">
+                <button id="loginBtn">Join Chat</button>
+            </div>
+            
+            <!-- Chat area (hidden until login) -->
+            <div id="chatArea" hidden>
+                
+                <!-- Chat header with student ID display -->
+                <div>
+                    <span>Your ID: </span>
+                    <span id="displayId"></span>
+                    <button id="logoutBtn">Exit</button>
+                </div>
+                
+                <!-- Message display area -->
+                <div id="messageContainer">
+                    <!-- Messages will appear here dynamically -->
+                </div>
+                
+                <!-- Message input area -->
+                <div>
+                    <textarea id="messageInput" placeholder="Type your message here..." rows="2"></textarea>
+                    <button id="sendBtn">Send Message</button>
+                </div>
+                
+            </div>
+            
+        </div>
+        
+    </div>
+
+    <script>
+        // DOM elements - getting references to all the elements we'll use
+        const toggleChatBtn = document.getElementById('toggleChatBtn');
+        const chatInterface = document.getElementById('chatInterface');
+        const loginSection = document.getElementById('loginSection');
+        const studentIdInput = document.getElementById('studentId');
+        const loginBtn = document.getElementById('loginBtn');
+        const chatArea = document.getElementById('chatArea');
+        const displayId = document.getElementById('displayId');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const messageContainer = document.getElementById('messageContainer');
+        const messageInput = document.getElementById('messageInput');
+        const sendBtn = document.getElementById('sendBtn');
+        
+        // Current user's student ID - starts as null (not logged in)
+        let currentUserId = null;
+        
+        // Sample messages to start with (like a new chat group)
+        const initialMessages = [
+            { id: "13114514", text: "Hello everyone! Welcome to the free speech area." },
+            { id: "13114514", text: "Hi! This looks like a cool place to chat." },
+        ];
+        
+        // Function to show a message in the chat
+        function displayMessage(studentId, messageText) {
+            // Create message element
+            const messageDiv = document.createElement('div');
+            
+            // Create student ID span
+            const idSpan = document.createElement('span');
+            idSpan.textContent = studentId + ": ";
+            
+            // Create message text span
+            const textSpan = document.createElement('span');
+            textSpan.textContent = messageText;
+            
+            // Append both to message div
+            messageDiv.appendChild(idSpan);
+            messageDiv.appendChild(textSpan);
+            
+            // Add to message container
+            messageContainer.appendChild(messageDiv);
+            
+            // Add line break after each message
+            messageContainer.appendChild(document.createElement('br'));
+            
+            // Auto scroll to the latest message
+            messageContainer.scrollTop = messageContainer.scrollHeight;
+        }
+        
+        // Load initial messages when chat starts
+        function loadInitialMessages() {
+            // Clear any existing messages
+            messageContainer.innerHTML = '';
+            
+            // Add each initial message
+            initialMessages.forEach(msg => {
+                displayMessage(msg.id, msg.text);
+            });
+        }
+        
+        // Function to handle login
+        function handleLogin() {
+            const id = studentIdInput.value.trim();
+            
+            // Basic validation - must be exactly 8 digits
+            if (!id || id.length !== 8 || !/^\d+$/.test(id)) {
+                alert('Please enter a valid 8-digit student ID (numbers only)');
+                return;
+            }
+            
+            // Set current user ID
+            currentUserId = id;
+            
+            // Update display
+            displayId.textContent = id;
+            
+            // Switch from login to chat area
+            loginSection.hidden = true;
+            chatArea.hidden = false;
+            
+            // Load initial messages
+            loadInitialMessages();
+            
+            // Focus on message input for typing
+            messageInput.focus();
+        }
+        
+        // Function to handle logout
+        function handleLogout() {
+            // Reset everything
+            currentUserId = null;
+            studentIdInput.value = '';
+            
+            // Hide chat area, show login
+            chatArea.hidden = true;
+            loginSection.hidden = false;
+            
+            // Collapse the chat interface
+            chatInterface.hidden = true;
+            
+            // Reset button text
+            toggleChatBtn.textContent = 'Free Speech Area';
+        }
+        
+        // Function to send a new message
+        function sendMessage() {
+            const message = messageInput.value.trim();
+            
+            // Don't send empty messages
+            if (!message) {
+                alert('Please type a message before sending');
+                return;
+            }
+            
+            // Don't send if not logged in (shouldn't happen, but just in case)
+            if (!currentUserId) {
+                alert('Please log in first');
+                return;
+            }
+            
+            // Display the message
+            displayMessage(currentUserId, message);
+            
+            // Clear input field
+            messageInput.value = '';
+            
+            // Refocus on input for next message
+            messageInput.focus();
+            
+            // In a real app, you would send to server here
+            // For now, we just display it locally
+        }
+        
+        // Event listeners - connecting our functions to user actions
+        
+        // Show/hide chat interface when button is clicked
+        toggleChatBtn.addEventListener('click', function() {
+            if (chatInterface.hidden) {
+                chatInterface.hidden = false;
+                this.textContent = 'Hide Free Speech Area';
+            } else {
+                chatInterface.hidden = true;
+                this.textContent = 'Free Speech Area';
+            }
+        });
+        
+        // Login when login button is clicked
+        loginBtn.addEventListener('click', handleLogin);
+        
+        // Also allow pressing Enter in the student ID field
+        studentIdInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                handleLogin();
+            }
+        });
+        
+        // Logout when logout button is clicked
+        logoutBtn.addEventListener('click', handleLogout);
+        
+        // Send message when send button is clicked
+        sendBtn.addEventListener('click', sendMessage);
+        
+        // Also allow pressing Enter to send message (but Shift+Enter for new line)
+        messageInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault(); // Prevent new line in textarea
+                sendMessage();
+            }
+        });
+        
+        // Initialize the chat area
+        // Nothing special needed - just making sure everything starts hidden
+        
+    </script>
+</body>
+</html>
