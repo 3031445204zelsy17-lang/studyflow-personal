@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课程详情 | HKMU 数据科学</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        body { background: #F5F7FA; }
+        
+        .tab-btn.active {
+            background: #0066CC;
+            color: white;
+        }
+        
+        .star-rating {
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .star-rating:hover,
+        .star-rating.active {
+            color: #FFB800;
+        }
+        
+        .upload-area {
+            border: 2px dashed #0066CC;
+            transition: all 0.3s;
+        }
+        .upload-area:hover {
+            background: #E3F2FD;
+        }
+        
+        .file-item {
+            transition: all 0.3s;
+        }
+        .file-item:hover {
+            background: #F5F7FA;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease forwards;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- 导航栏 -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="../index.html" class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-[#0066CC] to-[#2E7D52] rounded-lg flex items-center justify-center">
+                        <i data-lucide="graduation-cap" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <span class="text-lg font-bold text-gray-800">HKMU DSAI</span>
+                </a>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="../index.html" class="text-gray-600 hover:text-[#0066CC] font-medium">Homepage</a>
+                    <a href="progress.html" class="text-gray-600 hover:text-[#0066CC] font-medium">Academic progress</a>
+                    <a href="course-detail.html?id=COMP1080SEF" class="text-[#0066CC] font-semibold">Course Details</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容 -->
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- 课程头部信息 -->
+        <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                    <div class="flex items-center gap-3 mb-2">
+                        <span id="courseCode" class="text-2xl font-bold text-[#0066CC]">COMP 1080SEF</span>
+                        <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">Core</span>
+                    </div>
+                    <h1 id="courseTitle" class="text-xl font-semibold text-gray-800">Introduction to Computer Programming</h1>
+                    <div class="flex items-center gap-4 mt-2 text-sm text-gray-500">
+                        <span class="flex items-center gap-1">
+                            <i data-lucide="award" class="w-4 h-4"></i>
+                            3 credits
+                        </span>
+                        <span class="flex items-center gap-1">
+                            <i data-lucide="bar-chart" class="w-4 h-4"></i>
+                            Foundation Level
+                        </span>
+                        <span class="flex items-center gap-1">
+                            <i data-lucide="calendar" class="w-4 h-4"></i>
+                            Year 1 - Autumn
+                        </span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button onclick="updateCourseStatus('completed')" class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition flex items-center gap-2">
+                        <i data-lucide="check" class="w-4 h-4"></i>
+                        标记完成
+                    </button>
+                    <button onclick="updateCourseStatus('in-progress')" class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition flex items-center gap-2">
+                        <i data-lucide="clock" class="w-4 h-4"></i>
+                        进行中
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 标签切换 -->
+        <div class="flex gap-2 mb-6">
+            <button onclick="showTab('info')" id="tab-info" class="tab-btn active px-6 py-3 rounded-xl font-semibold bg-white shadow text-gray-600">课程信息</button>
+            <button onclick="showTab('reviews')" id="tab-reviews" class="tab-btn px-6 py-3 rounded-xl font-semibold bg-white shadow text-gray-600">学生评价</button>
+            <button onclick="showTab('materials')" id="tab-materials" class="tab-btn px-6 py-3 rounded-xl font-semibold bg-white shadow text-gray-600">学习资料</button>
+        </div>
+
+        <!-- 课程信息 -->
+        <div id="content-info" class="tab-content">
+            <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+                <h2 class="text-lg font-bold text-gray-800 mb-4">课程描述</h2>
+                <p id="courseDesc" class="text-gray-600 leading-relaxed">
+                    This is intended to be a first course in computer programming. In this course, students will study how to write computer programs in the Python language to solve simple computing problems.
+                </p>
+                <p class="text-gray-600 leading-relaxed mt-4">
+                    Students will use fundamental programming and data containers to ease programming effort and to allow writing larger programs to solve problems. Topics include variables, operators, control structures, arrays and strings.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg p-6">
+                <h2 class="text-lg font-bold text-gray-800 mb-4">学习成果</h2>
+                <ul class="space-y-3">
+                    <li class="flex items-start gap-3">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-green-500 mt-0.5"></i>
+                        <span class="text-gray-600">理解Python编程语言的基本概念和语法</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-green-500 mt-0.5"></i>
+                        <span class="text-gray-600">能够编写简单的计算机程序解决基础计算问题</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-green-500 mt-0.5"></i>
+                        <span class="text-gray-600">掌握变量、运算符、控制结构、数组和字符串的使用</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-green-500 mt-0.5"></i>
+                        <span class="text-gray-600">具备编写较大程序解决复杂问题的能力</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+
+
+
+
+
+        <!-- 学生评价 -->
+        <div id="content-reviews" class="tab-content hidden">
+            <!-- 评分概览 -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+                <div class="flex flex-col md:flex-row md:items-center gap-6">
+                    <div class="text-center">
+                        <div id="avgRating" class="text-5xl font-bold text-[#0066CC]">4.5</div>
+                        <div class="flex items-center justify-center gap-1 my-2">
+                            <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-yellow-400"></i>
+                            <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-yellow-400"></i>
+                            <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-yellow-400"></i>
+                            <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-yellow-400"></i>
+                            <i data-lucide="star" class="w-5 h-5 text-gray-300"></i>
+                        </div>
+                        <div class="text-gray-500 text-sm">基于 <span id="reviewCount">3</span> 条评价</div>
+                    </div>
+                    <div class="flex-1">
+                        <button onclick="openReviewModal()" class="w-full md:w-auto px-6 py-3 bg-[#0066CC] text-white rounded-xl font-semibold hover:bg-blue-700 transition flex items-center justify-center gap-2">
+                            <i data-lucide="edit" class="w-5 h-5"></i>
+                            写评价
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 评价列表 -->
+            <div id="reviewsList" class="space-y-4">
+                <!-- 评价将通过JS动态加载 -->
+            </div>
+        </div>
+
+        <!-- 学习资料 -->
+        <div id="content-materials" class="tab-content hidden">
+            <!-- 上传区域 -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+                <h2 class="text-lg font-bold text-gray-800 mb-4">上传资料</h2>
+                <div class="upload-area rounded-xl p-8 text-center cursor-pointer" onclick="document.getElementById('fileInput').click()">
+                    <input type="file" id="fileInput" class="hidden" onchange="handleFileUpload(this)">
+                    <i data-lucide="upload-cloud" class="w-12 h-12 text-[#0066CC] mx-auto mb-4"></i>
+                    <p class="text-gray-600 font-medium">点击或拖拽文件到此处上传</p>
+                    <p class="text-gray-400 text-sm mt-2">支持 PDF, DOC, PPT, ZIP 格式，最大 50MB</p>
+                </div>
+            </div>
+
+            <!-- 文件列表 -->
+            <div class="bg-white rounded-2xl shadow-lg p-6">
+                <h2 class="text-lg font-bold text-gray-800 mb-4">资料列表</h2>
+                <div id="materialsList" class="space-y-3">
+                    <!-- 文件将通过JS动态加载 -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 写评价弹窗 -->
+    <div id="reviewModal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 animate-fade-in">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-800">写评价</h3>
+                <button onclick="closeReviewModal()" class="p-2 hover:bg-gray-100 rounded-lg">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <form onsubmit="submitReview(event)">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">评分</label>
+                    <div class="flex gap-2" id="starContainer">
+                        <i data-lucide="star" class="w-8 h-8 text-gray-300 cursor-pointer star-rating" onclick="setRating(1)"></i>
+                        <i data-lucide="star" class="w-8 h-8 text-gray-300 cursor-pointer star-rating" onclick="setRating(2)"></i>
+                        <i data-lucide="star" class="w-8 h-8 text-gray-300 cursor-pointer star-rating" onclick="setRating(3)"></i>
+                        <i data-lucide="star" class="w-8 h-8 text-gray-300 cursor-pointer star-rating" onclick="setRating(4)"></i>
+                        <i data-lucide="star" class="w-8 h-8 text-gray-300 cursor-pointer star-rating" onclick="setRating(5)"></i>
+                    </div>
+                    <input type="hidden" id="ratingValue" value="0">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">姓名</label>
+                    <input type="text" id="reviewerName" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0066CC] focus:border-transparent" placeholder="您的姓名" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">评价内容</label>
+                    <textarea id="reviewContent" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0066CC] focus:border-transparent" placeholder="分享您的学习体验..." required></textarea>
+                </div>
+                <button type="submit" class="w-full py-3 bg-[#0066CC] text-white rounded-xl font-semibold hover:bg-blue-700 transition">
+                    提交评价
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // 初始化
+        let currentRating = 0;
+        let courseReviews = JSON.parse(localStorage.getItem('courseReviews')) || {};
+        let courseMaterials = JSON.parse(localStorage.getItem('courseMaterials')) || {};
+        
+        // 获取当前课程ID
+        const urlParams = new URLSearchParams(window.location.search);
+        const courseId = urlParams.get('id') || 'COMP1080SEF';
+        
+        // 课程数据
+        const courseData = {
+            'COMP1080SEF': {
+                code: 'COMP 1080SEF',
+                title: 'Introduction to Computer Programming',
+                category: 'Core',
+                credits: 3,
+                level: 'Foundation',
+                year: 'Year 1',
+                term: 'Autumn',
+                desc: 'This is intended to be a first course in computer programming. In this course, students will study how to write computer programs in the Python language to solve simple computing problems. Students will use fundamental programming and data containers to ease programming effort and to allow writing larger programs to solve problems. Topics include variables, operators, control structures, arrays and strings.'
+            },
+            'COMP2090SEF': {
+                code: 'COMP 2090SEF',
+                title: 'Data Structures, Algorithms & Problem Solving',
+                category: 'Core',
+                credits: 3,
+                level: 'Middle',
+                year: 'Year 1',
+                term: 'Spring',
+                prereq: 'COMP 1080SEF',
+                desc: 'As a sequel to COMP 1080SEF, the aim of this course is to facilitate students to acquire skills for writing larger programs effectively. Students will study how program structures, software development process, data structures, and algorithms can be used to deal with larger programming tasks.'
+            },
+            'COMP3510SEF': {
+                code: 'COMP 3510SEF',
+                title: 'Software Project Management',
+                category: 'Core',
+                credits: 3,
+                level: 'Higher',
+                year: 'Year 3',
+                term: 'Spring',
+                prereq: 'COMP 3500SEF',
+                desc: 'As a sequel to COMP 3500SEF, This course aims to develop in learners the know-how of project management recognized as good practices in software development.'
+            },
+            'COMP4210SEF': {
+                code: 'COMP 4210SEF',
+                title: 'Advanced Database & Data Warehousing',
+                category: 'Core',
+                credits: 3,
+                level: 'Higher',
+                year: 'Year 4',
+                term: 'Spring',
+                prereq: 'COMP 3200SEF',
+                desc: 'As a sequel to COMP 3200SEF, this course aims to provide students with more advanced concepts of relational databases and more practical experience in different situations.'
+            }
+        };
+        
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', function() {
+            lucide.createIcons();
+            loadCourseInfo();
+            loadReviews();
+            loadMaterials();
+        });
+        
+        // 加载课程信息
+        function loadCourseInfo() {
+            const course = courseData[courseId];
+            if (course) {
+                document.getElementById('courseCode').textContent = course.code;
+                document.getElementById('courseTitle').textContent = course.title;
+                document.getElementById('courseDesc').textContent = course.desc;
+            }
+        }
+        
+        // 切换标签
+        function showTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById('content-' + tab).classList.remove('hidden');
+            document.getElementById('tab-' + tab).classList.add('active');
+            lucide.createIcons();
+        }
+        
+        // 更新课程状态
+        function updateCourseStatus(status) {
+            let courseStatus = JSON.parse(localStorage.getItem('courseStatus')) || {};
+            courseStatus[courseId] = status;
+            localStorage.setItem('courseStatus', JSON.stringify(courseStatus));
+            alert(status === 'completed' ? '已标记为完成！' : '已标记为进行中！');
+        }
+        
+        // 评价相关
+        function openReviewModal() {
+            document.getElementById('reviewModal').classList.remove('hidden');
+        }
+        
+        function closeReviewModal() {
+            document.getElementById('reviewModal').classList.add('hidden');
+        }
+        
+        function setRating(rating) {
+            currentRating = rating;
+            document.getElementById('ratingValue').value = rating;
+            const stars = document.querySelectorAll('#starContainer .star-rating');
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.add('text-yellow-400', 'fill-yellow-400');
+                    star.classList.remove('text-gray-300');
+                } else {
+                    star.classList.remove('text-yellow-400', 'fill-yellow-400');
+                    star.classList.add('text-gray-300');
+                }
+            });
+        }
+        
+        function submitReview(e) {
+            e.preventDefault();
+            if (currentRating === 0) {
+                alert('请选择评分！');
+                return;
+            }
+            
+            const review = {
+                id: Date.now(),
+                courseId: courseId,
+                name: document.getElementById('reviewerName').value,
+                rating: currentRating,
+                content: document.getElementById('reviewContent').value,
+                date: new Date().toLocaleDateString('zh-CN'),
+                helpful: 0
+            };
+            
+            if (!courseReviews[courseId]) {
+                courseReviews[courseId] = [];
+            }
+            courseReviews[courseId].push(review);
+            localStorage.setItem('courseReviews', JSON.stringify(courseReviews));
+            
+            closeReviewModal();
+            loadReviews();
+            alert('评价提交成功！');
+        }
+        
+        function loadReviews() {
+            const reviews = courseReviews[courseId] || [];
+            const container = document.getElementById('reviewsList');
+            
+            if (reviews.length === 0) {
+                container.innerHTML = '<div class="text-center text-gray-500 py-8">暂无评价，成为第一个评价的人吧！</div>';
+                return;
+            }
+            
+            container.innerHTML = reviews.map(review => `
+                <div class="bg-white rounded-2xl shadow p-6 animate-fade-in">
+                    <div class="flex justify-between items-start mb-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-gradient-to-br from-[#0066CC] to-[#2E7D52] rounded-full flex items-center justify-center text-white font-bold">
+                                ${review.name.charAt(0).toUpperCase()}
+                            </div>
+                            <div>
+                                <div class="font-semibold text-gray-800">${review.name}</div>
+                                <div class="text-sm text-gray-500">${review.date}</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            ${Array(5).fill(0).map((_, i) => `
+                                <i data-lucide="star" class="w-4 h-4 ${i < review.rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}"></i>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <p class="text-gray-600">${review.content}</p>
+                    <div class="flex items-center gap-4 mt-4 pt-4 border-t">
+                        <button onclick="likeReview(${review.id})" class="flex items-center gap-2 text-gray-500 hover:text-[#0066CC] transition">
+                            <i data-lucide="thumbs-up" class="w-4 h-4"></i>
+                            <span>有用 (${review.helpful})</span>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            
+            // 更新评分统计
+            const avgRating = reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
+            document.getElementById('avgRating').textContent = avgRating.toFixed(1);
+            document.getElementById('reviewCount').textContent = reviews.length;
+            
+            lucide.createIcons();
+        }
+        
+        function likeReview(reviewId) {
+            const reviews = courseReviews[courseId];
+            const review = reviews.find(r => r.id === reviewId);
+            if (review) {
+                review.helpful++;
+                localStorage.setItem('courseReviews', JSON.stringify(courseReviews));
+                loadReviews();
+            }
+        }
+        
+        // 文件上传
+        function handleFileUpload(input) {
+            const file = input.files[0];
+            if (!file) return;
+            
+            if (file.size > 50 * 1024 * 1024) {
+                alert('文件大小不能超过50MB！');
+                return;
+            }
+            
+            const material = {
+                id: Date.now(),
+                courseId: courseId,
+                name: file.name,
+                size: formatFileSize(file.size),
+                type: file.type,
+                uploader: '匿名用户',
+                date: new Date().toLocaleDateString('zh-CN'),
+                downloads: 0
+            };
+            
+            if (!courseMaterials[courseId]) {
+                courseMaterials[courseId] = [];
+            }
+            courseMaterials[courseId].push(material);
+            localStorage.setItem('courseMaterials', JSON.stringify(courseMaterials));
+            
+            loadMaterials();
+            alert('文件上传成功！');
+        }
+        
+        function loadMaterials() {
+            const materials = courseMaterials[courseId] || [];
+            const container = document.getElementById('materialsList');
+            
+            if (materials.length === 0) {
+                container.innerHTML = '<div class="text-center text-gray-500 py-8">暂无资料，上传第一个资料吧！</div>';
+                return;
+            }
+            
+            container.innerHTML = materials.map(material => `
+                <div class="file-item flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <i data-lucide="file-text" class="w-6 h-6 text-[#0066CC]"></i>
+                        </div>
+                        <div>
+                            <div class="font-medium text-gray-800">${material.name}</div>
+                            <div class="text-sm text-gray-500">${material.uploader} · ${material.date} · ${material.size}</div>
+                        </div>
+                    </div>
+                    <button onclick="downloadMaterial(${material.id})" class="px-4 py-2 bg-[#0066CC] text-white rounded-lg hover:bg-blue-700 transition flex items-center gap-2">
+                        <i data-lucide="download" class="w-4 h-4"></i>
+                        下载
+                    </button>
+                </div>
+            `).join('');
+            
+            lucide.createIcons();
+        }
+        
+        function downloadMaterial(materialId) {
+            const materials = courseMaterials[courseId];
+            const material = materials.find(m => m.id === materialId);
+            if (material) {
+                material.downloads++;
+                localStorage.setItem('courseMaterials', JSON.stringify(courseMaterials));
+                alert('开始下载: ' + material.name);
+            }
+        }
+        
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+    </script>
+</body>
+</html>
