@@ -1,0 +1,309 @@
+
+html_code = '''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Forum</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: linear-gradient(135deg, #e8f6f3 0%, #f0f9f7 100%);
+            --white: #fff; --blue: #3498db; --blue-h: #2980b9;
+            --green: #27ae60; --coral: #ff6b6b; --orange: #f39c12;
+            --dark: #2c3e50; --gray: #7f8c8d;
+            --shadow: 0 2px 12px rgba(0,0,0,0.08);
+            --shadow-h: 0 4px 20px rgba(0,0,0,0.12);
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg); min-height: 100vh; color: var(--dark); line-height: 1.6;
+        }
+        .header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 40px; background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+        }
+        .logo { font-size: 28px; font-weight: 700; color: var(--blue); letter-spacing: -0.5px; }
+        .user-info { display: none; align-items: center; gap: 12px; }
+        .user-info.active { display: flex; }
+        .user-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--blue); }
+        .user-name { font-weight: 600; }
+        .btn {
+            padding: 10px 24px; border: none; border-radius: 8px; font-size: 15px;
+            font-weight: 600; cursor: pointer; transition: all 0.3s ease;
+        }
+        .btn-primary { background: var(--blue); color: white; }
+        .btn-primary:hover { background: var(--blue-h); transform: translateY(-2px); box-shadow: var(--shadow-h); }
+        .btn.hidden { display: none; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .welcome { text-align: center; margin-bottom: 50px; }
+        .welcome h1 { font-size: 42px; margin-bottom: 12px; }
+        .welcome p { font-size: 18px; color: var(--gray); }
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+        .card {
+            background: var(--white); border-radius: 16px; padding: 28px;
+            box-shadow: var(--shadow); transition: all 0.3s ease;
+        }
+        .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-h); }
+        .card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+        .card-title { font-size: 20px; font-weight: 700; }
+        .tag {
+            padding: 4px 12px; border-radius: 20px; font-size: 12px;
+            font-weight: 600; text-transform: uppercase;
+        }
+        .tag-coral { background: rgba(255,107,107,0.15); color: var(--coral); }
+        .tag-orange { background: rgba(243,156,18,0.15); color: var(--orange); }
+        .tag-green { background: rgba(39,174,96,0.15); color: var(--green); }
+        .card-content { color: var(--gray); font-size: 15px; }
+        .post-list { list-style: none; margin-top: 16px; }
+        .post-item { padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.05); display: flex; align-items: center; gap: 10px; }
+        .post-item:last-child { border-bottom: none; }
+        .post-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--blue); flex-shrink: 0; }
+        .post-text { font-size: 14px; }
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 200; justify-content: center; align-items: center;
+            backdrop-filter: blur(4px);
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: var(--white); border-radius: 20px; padding: 36px; width: 90%;
+            max-width: 420px; box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            animation: slide 0.3s ease;
+        }
+        @keyframes slide { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+        .modal-title { font-size: 24px; font-weight: 700; margin-bottom: 24px; text-align: center; }
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+        .form-input {
+            width: 100%; padding: 12px 16px; border: 2px solid #e8e8e8;
+            border-radius: 10px; font-size: 15px; transition: all 0.3s ease;
+        }
+        .form-input:focus { outline: none; border-color: var(--blue); }
+        .file-label {
+            display: block; padding: 12px 16px; border: 2px dashed #ddd;
+            border-radius: 10px; text-align: center; color: var(--gray);
+            cursor: pointer; transition: all 0.3s ease;
+        }
+        .file-label:hover, .file-label.has-file { border-color: var(--blue); color: var(--blue); }
+        .file-label.has-file { background: rgba(52,152,219,0.05); }
+        #profilePhoto { position: absolute; left: -9999px; }
+        .preview-avatar {
+            width: 80px; height: 80px; border-radius: 50%; object-fit: cover;
+            margin: 16px auto 0; display: none; border: 3px solid var(--blue);
+        }
+        .preview-avatar.active { display: block; }
+        .form-actions { display: flex; gap: 12px; margin-top: 24px; }
+        .btn-submit { flex: 1; background: var(--blue); color: white; }
+        .btn-submit:hover { background: var(--blue-h); }
+        .btn-cancel { flex: 1; background: #ecf0f1; color: var(--dark); }
+        .btn-cancel:hover { background: #d5dbdb; }
+        @media (max-width: 768px) {
+            .header { padding: 16px 20px; }
+            .logo { font-size: 22px; }
+            .welcome h1 { font-size: 28px; }
+            .cards-grid { grid-template-columns: 1fr; gap: 16px; }
+            .card { padding: 20px; }
+            .modal { padding: 24px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">Student Forum</div>
+        <div class="user-info" id="userInfo">
+            <img src="" alt="Avatar" class="user-avatar" id="userAvatar">
+            <span class="user-name" id="userName"></span>
+        </div>
+        <button class="btn btn-primary" id="registerBtn">Register</button>
+    </header>
+
+    <main class="container">
+        <div class="welcome">
+            <h1>Welcome to Student Forum</h1>
+            <p>Connect, share, and discover with your campus community</p>
+        </div>
+
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Free Talk Area</h2>
+                    <span class="tag tag-coral">Chat</span>
+                </div>
+                <div class="card-content">
+                    <p>Share your thoughts, ideas, and daily stories with fellow students.</p>
+                    <ul class="post-list">
+                        <li class="post-item"><span class="post-dot"></span><span class="post-text">Best coffee shops near campus?</span></li>
+                        <li class="post-item"><span class="post-dot"></span><span class="post-text">Weekend study group anyone?</span></li>
+                        <li class="post-item"><span class="post-dot"></span><span class="post-text">Favorite spots for lunch breaks</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">News</h2>
+                    <span class="tag tag-orange">Update</span>
+                </div>
+                <div class="card-content">
+                    <p>Stay informed with the latest campus announcements and events.</p>
+                    <ul class="post-list">
+                        <li class="post-item"><span class="post-dot"></span><span class="post-text">Library extends hours for finals week</span></li>
+                        <li class="post-item"><span class="post-dot"></span><span class="post-text">New scholarship applications open</span></li>
+                        <li class="post-item"><span class="post-dot"></span><span class="post-text">Spring festival registration starts Monday</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Course Selection Guide</h2>
+                    <span class="tag tag-green">Academic</span>
+                </div>
+                <div class="card-content">
+                    <p>Get advice on courses, professors, and academic planning.</p>
+                    <ul class="post-list">
+                        <li class="post-item"><span class="post-dot"></span><span class="post-text">CS101 vs CS110 - Which to take?</span></li>
+                        <li class="post-item"><span class="post-dot"></span><span class="post-text">Professor recommendations for Math</span></li>
+                        <li class="post-item"><span class="post-dot"></span><span class="post-text">Easy electives for next semester</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Lost & Found</h2>
+                    <span class="tag tag-coral">Help</span>
+                </div>
+                <div class="card-content">
+                    <p>Report lost items or help others find their belongings.</p>
+                    <ul class="post-list">
+                        <li class="post-item"><span class="post-dot"></span><span class="post-text">Lost: Blue backpack in Science Hall</span></li>
+                        <li class="post-item"><span class="post-dot"></span><span class="post-text">Found: Student ID card at cafeteria</span></li>
+                        <li class="post-item"><span class="post-dot"></span><span class="post-text">Missing: AirPods near gym</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Club Activity</h2>
+                    <span class="tag tag-orange">Events</span>
+                </div>
+                <div class="card-content">
+                    <p>Discover student clubs and upcoming activities on campus.</p>
+                    <ul class="post-list">
+                        <li class="post-item"><span class="post-dot"></span><span class="post-text">Photography club meeting this Friday</span></li>
+                        <li class="post-item"><span class="post-dot"></span><span class="post-text">Debate team recruiting new members</span></li>
+                        <li class="post-item"><span class="post-dot"></span><span class="post-text">Chess tournament next month</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <h2 class="modal-title">Join Student Forum</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label class="form-label" for="studentNumber">Student Number</label>
+                    <input type="text" class="form-input" id="studentNumber" placeholder="Enter your student number" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="userNameInput">User Name</label>
+                    <input type="text" class="form-input" id="userNameInput" placeholder="Choose a username" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Profile Photo (Optional)</label>
+                    <input type="file" id="profilePhoto" accept="image/*">
+                    <label for="profilePhoto" class="file-label" id="fileLabel">Click to upload photo (or use default)</label>
+                    <img src="" alt="Preview" class="preview-avatar" id="previewAvatar">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-cancel" id="cancelBtn">Cancel</button>
+                    <button type="submit" class="btn btn-submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // 默认头像路径 - 请将 default-avatar.jpg 放在与 HTML 同级目录
+        const defaultAvatar = './default-avatar.jpg';
+        
+        const $ = id => document.getElementById(id);
+        const els = {
+            registerBtn: $('registerBtn'), modalOverlay: $('modalOverlay'),
+            cancelBtn: $('cancelBtn'), registerForm: $('registerForm'),
+            profilePhoto: $('profilePhoto'), fileLabel: $('fileLabel'),
+            previewAvatar: $('previewAvatar'), userInfo: $('userInfo'),
+            userAvatar: $('userAvatar'), userName: $('userName')
+        };
+
+        const showUser = user => {
+            els.userAvatar.src = user.avatar;
+            els.userName.textContent = user.name;
+            els.userInfo.classList.add('active');
+            els.registerBtn.classList.add('hidden');
+        };
+
+        const resetModal = () => {
+            els.modalOverlay.classList.remove('active');
+            els.registerForm.reset();
+            els.previewAvatar.classList.remove('active');
+            els.fileLabel.textContent = 'Click to upload photo (or use default)';
+            els.fileLabel.classList.remove('has-file');
+        };
+
+        if (localStorage.getItem('forumUser')) {
+            showUser(JSON.parse(localStorage.getItem('forumUser')));
+        }
+
+        els.registerBtn.addEventListener('click', () => els.modalOverlay.classList.add('active'));
+        els.cancelBtn.addEventListener('click', resetModal);
+        els.modalOverlay.addEventListener('click', e => { if (e.target === els.modalOverlay) resetModal(); });
+
+        els.profilePhoto.addEventListener('change', e => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = ev => {
+                    els.previewAvatar.src = ev.target.result;
+                    els.previewAvatar.classList.add('active');
+                    els.fileLabel.textContent = file.name;
+                    els.fileLabel.classList.add('has-file');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        els.registerForm.addEventListener('submit', e => {
+            e.preventDefault();
+            // 如果没有上传头像，使用默认头像
+            const avatarSrc = els.previewAvatar.classList.contains('active') 
+                ? els.previewAvatar.src 
+                : defaultAvatar;
+            
+            const user = {
+                studentNumber: $('studentNumber').value,
+                name: $('userNameInput').value,
+                avatar: avatarSrc
+            };
+            localStorage.setItem('forumUser', JSON.stringify(user));
+            showUser(user);
+            resetModal();
+        });
+    </script>
+</body>
+</html>'''
+
+lines = html_code.split('\n')
+print(f"总行数: {len(lines)} 行")
+print("\n使用方法：")
+print("1. 下载上面的 default-avatar.jpg 文件")
+print("2. 将 HTML 代码保存为 index.html")
+print("3. 确保两个文件在同一文件夹下")
+print("4. 打开 index.html 即可使用")
