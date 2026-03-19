@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HKMU Campus Forum - 校园服务平台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'hkmu-blue': '#0066CC',
+                        'hkmu-green': '#2E7D52',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-green-50 min-h-screen">
+    <div class="container mx-auto px-4 py-12">
+        <!-- Header -->
+        <div class="text-center mb-16">
+            <h1 class="text-5xl font-bold text-gray-800 mb-4">
+                🏫 HKMU Campus Forum
+            </h1>
+            <p class="text-xl text-gray-600">校园一站式服务平台</p>
+            <p class="text-sm text-gray-500 mt-2">HKMU All-in-One Campus Service Platform</p>
+        </div>
+
+        <!-- Module Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+
+            <!-- DSAI Course Planner -->
+            <a href="dsai-planner.html" class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
+                <div class="h-48 bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
+                    <span class="text-6xl">📚</span>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-hkmu-blue transition-colors">
+                        DSAI Course Planner
+                    </h3>
+                    <p class="text-gray-600 text-sm">DSAI 课程规划与选课系统</p>
+                    <div class="mt-4 flex items-center text-hkmu-blue text-sm font-medium">
+                        进入系统 →
+                    </div>
+                </div>
+            </a>
+
+            <!-- HKMU News -->
+            <a href="hkmu-news.html" class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
+                <div class="h-48 bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center">
+                    <span class="text-6xl">📰</span>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-hkmu-green transition-colors">
+                        HKMU News Portal
+                    </h3>
+                    <p class="text-gray-600 text-sm">HKMU 新闻门户网站</p>
+                    <div class="mt-4 flex items-center text-hkmu-green text-sm font-medium">
+                        进入系统 →
+                    </div>
+                </div>
+            </a>
+
+            <!-- Student Forum -->
+            <a href="student-forum.html" class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
+                <div class="h-48 bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center">
+                    <span class="text-6xl">💬</span>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-purple-600 transition-colors">
+                        Student Forum
+                    </h3>
+                    <p class="text-gray-600 text-sm">学生自由讨论区</p>
+                    <div class="mt-4 flex items-center text-purple-600 text-sm font-medium">
+                        进入系统 →
+                    </div>
+                </div>
+            </a>
+
+            <!-- Lost & Found -->
+            <a href="lost-found.html" class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
+                <div class="h-48 bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center">
+                    <span class="text-6xl">🔍</span>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-orange-600 transition-colors">
+                        Lost & Found
+                    </h3>
+                    <p class="text-gray-600 text-sm">失物招领系统</p>
+                    <div class="mt-4 flex items-center text-orange-600 text-sm font-medium">
+                        进入系统 →
+                    </div>
+                </div>
+            </a>
+
+            <!-- IT Club -->
+            <a href="it-club.html" class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
+                <div class="h-48 bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center">
+                    <span class="text-6xl">💻</span>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-red-600 transition-colors">
+                        IT Club
+                    </h3>
+                    <p class="text-gray-600 text-sm">IT 社团展示</p>
+                    <div class="mt-4 flex items-center text-red-600 text-sm font-medium">
+                        进入系统 →
+                    </div>
+                </div>
+            </a>
+
+            <!-- Main Interface -->
+            <a href="main-interface.html" class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
+                <div class="h-48 bg-gradient-to-br from-teal-500 to-teal-600 flex items-center justify-center">
+                    <span class="text-6xl">🎯</span>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-teal-600 transition-colors">
+                        Main Interface
+                    </h3>
+                    <p class="text-gray-600 text-sm">主界面</p>
+                    <div class="mt-4 flex items-center text-teal-600 text-sm font-medium">
+                        进入系统 →
+                    </div>
+                </div>
+            </a>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-16 text-center text-gray-500 text-sm">
+            <p>© 2026 Hong Kong Metropolitan University</p>
+            <p class="mt-1">81 Chung Hau Street, Homantin, Kowloon, Hong Kong</p>
+        </div>
+    </div>
+</body>
+</html>

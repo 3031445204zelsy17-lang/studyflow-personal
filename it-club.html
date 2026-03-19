@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hong Kong Metropolitan University - Student Clubs</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif;}
+        body {
+            padding: 20px;
+            background-color: #e6f7ff;
+        }
+        .container {max-width: 1200px; margin: 0 auto; text-align: center;}
+        .title {margin: 20px 0; color: #0056b3; font-size: 28px;}
+        .subtitle {margin-bottom: 20px; font-size: 16px; color: #006b48;}
+        
+        /* 3×3 网格布局 核心修改 */
+        .club-list {
+            display: grid;
+            grid-template-columns: repeat(3, 180px);
+            gap: 25px;
+            justify-content: center;
+            margin: 40px 0;
+        }
+        .club-card {
+            width: 100%;
+            background: #e6f7ff;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px #ccc;
+        }
+        .club-card img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .club-card a {
+            display: block;
+            margin-top: 10px;
+            color: #006b48;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .club-card a:hover {text-decoration: underline; color: #0056b3;}
+
+        .detail {
+            max-width: 900px;
+            margin: 60px auto;
+            padding: 30px;
+            background: #f0fff4;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            text-align: left;
+            box-shadow: 0 3px 8px #ddd;
+        }
+        .detail img {
+            width: 220px;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+        .detail-content {flex: 1;}
+        .detail h2 {color: #006b48; margin-bottom: 15px;}
+        .detail li {margin: 8px 0; line-height: 1.6; color: #333; font-size: 15px;}
+        .back-top {
+            display: inline-block;
+            margin-top: 20px;
+            color: #0056b3;
+            font-weight: bold;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="top">
+    <h1 class="title">Hong Kong Metropolitan University - Student Clubs</h1>
+    <p class="subtitle">9 Featured Clubs, Enrich Your Campus Life</p>
+
+    <!-- 3×3 社团卡片 -->
+    <div class="club-list">
+        <div class="club-card"><img src="https://picsum.photos/seed/cantonese-study/300/200" alt="Cantonese Club"><a href="#cantonese">Cantonese Club</a></div>
+        <div class="club-card"><img src="https://picsum.photos/seed/japanese-learn/300/200" alt="Japanese Club"><a href="#japanese">Japanese Club</a></div>
+        <div class="club-card"><img src="https://picsum.photos/seed/stock-market/300/200" alt="Stock Trading & Investment Club"><a href="#stock">Stock Investment Club</a></div>
+        <div class="club-card"><img src="https://picsum.photos/seed/nutrition-health/300/200" alt="Nutrition Club"><a href="#nutrition">Nutrition Club</a></div>
+        <div class="club-card"><img src="https://picsum.photos/seed/nature-environment/300/200" alt="Nature & Environment Club"><a href="#environment">Environment Club</a></div>
+        <div class="club-card"><img src="https://picsum.photos/seed/medical-disease/300/200" alt="Human Infectious Diseases Club"><a href="#disease">Infectious Diseases Club</a></div>
+        <div class="club-card"><img src="https://picsum.photos/seed/ai-tech/300/200" alt="Artificial Intelligence Club"><a href="#ai">AI Club</a></div>
+        <div class="club-card"><img src="https://picsum.photos/seed/english-education/300/200" alt="English Club"><a href="#english">English Club</a></div>
+        <div class="club-card"><img src="https://picsum.photos/seed/anime-cosplay/300/200" alt="Anime Club"><a href="#anime">Anime Club</a></div>
+    </div>
+
+    <!-- 全英文社团详情 -->
+    <div id="cantonese" class="detail">
+        <img src="https://picsum.photos/seed/cantonese-study/400/300" alt="Cantonese Club">
+        <div class="detail-content">
+            <h2>Cantonese Club</h2>
+            <ul>
+                <li>Teach Cantonese from scratch, including daily conversations, workplace terms and local slang</li>
+                <li>Organize Cantonese song singing, film dubbing and cultural sharing sessions</li>
+                <li>Hold Cantonese corners to help mainland students integrate into Hong Kong life</li>
+                <li>Host Cantonese speech and skit competitions to improve language skills</li>
+            </ul>
+            <a href="#top" class="back-top">↑ Back to Top</a>
+        </div>
+    </div>
+
+    <div id="japanese" class="detail">
+        <img src="https://picsum.photos/seed/japanese-learn/400/300" alt="Japanese Club">
+        <div class="detail-content">
+            <h2>Japanese Club</h2>
+            <ul>
+                <li>Teach Japanese basics (Japanese syllabary) for absolute beginners</li>
+                <li>Provide JLPT tutoring (N5-N2), daily conversation and business Japanese practice</li>
+                <li>Share Japanese culture: anime, food, festivals and etiquette experiences</li>
+                <li>Hold Japanese dubbing, drama appreciation and immersive communication activities</li>
+            </ul>
+            <a href="#top" class="back-top">↑ Back to Top</a>
+        </div>
+    </div>
+
+    <div id="stock" class="detail">
+        <img src="https://picsum.photos/seed/stock-market/400/300" alt="Stock Trading & Investment Club">
+        <div class="detail-content">
+            <h2>Stock Trading & Investment Club</h2>
+            <ul>
+                <li>Teach basic stock knowledge, fund financing and HK/US market analysis</li>
+                <li>Organize simulated stock trading competitions for risk-free investment practice</li>
+                <li>Invite financial mentors and senior investors to give special lectures</li>
+                <li>Analyze market trends and share investment strategies to develop financial literacy</li>
+            </ul>
+            <a href="#top" class="back-top">↑ Back to Top</a>
+        </div>
+    </div>
+
+    <div id="nutrition" class="detail">
+        <img src="https://picsum.photos/seed/nutrition-health/400/300" alt="Nutrition Club">
+        <div class="detail-content">
+            <h2>Nutrition Club</h2>
+            <ul>
+                <li>Provide dietary nutrition guidance, healthy recipes and customized student meals</li>
+                <li>Popularize sports nutrition, fat loss and nutrition knowledge for special groups</li>
+                <li>Analyze food effects and host lectures on food safety and healthy living</li>
+                <li>Organize healthy cooking experiences and campus nutrition promotion activities</li>
+            </ul>
+            <a href="#top" class="back-top">↑ Back to Top</a>
+        </div>
+    </div>
+
+    <div id="environment" class="detail">
+        <img src="https://picsum.photos/seed/nature-environment/400/300" alt="Nature & Environment Club">
+        <div class="detail-content">
+            <h2>Nature & Environment Club</h2>
+            <ul>
+                <li>Promote ecological protection, waste sorting and low-carbon living practices</li>
+                <li>Carry out campus greening, outdoor investigations and environmental public welfare activities</li>
+                <li>Discuss climate change and biodiversity conservation knowledge</li>
+                <li>Cooperate with public welfare organizations to hold beach cleaning and tree planting activities</li>
+            </ul>
+            <a href="#top" class="back-top">↑ Back to Top</a>
+        </div>
+    </div>
+
+    <div id="disease" class="detail">
+        <img src="https://picsum.photos/seed/medical-disease/400/300" alt="Human Infectious Diseases Club">
+        <div class="detail-content">
+            <h2>Human Infectious Diseases Club</h2>
+            <ul>
+                <li>Popularize prevention knowledge of common infectious diseases and epidemics</li>
+                <li>Study disease transmission principles, epidemic prevention measures and public health safety</li>
+                <li>Invite medical professionals to give lectures on health protection</li>
+                <li>Produce science manuals to promote disease prevention knowledge on campus</li>
+            </ul>
+            <a href="#top" class="back-top">↑ Back to Top</a>
+        </div>
+    </div>
+
+    <div id="ai" class="detail">
+        <img src="https://picsum.photos/seed/ai-tech/400/300" alt="Artificial Intelligence Club">
+        <div class="detail-content">
+            <h2>Artificial Intelligence Club</h2>
+            <ul>
+                <li>Teach AI basics, machine learning and deep learning for beginners</li>
+                <li>Practice AI tools: ChatGPT, AI painting, data analysis and other applications</li>
+                <li>Form teams for AI competitions, project development and technical seminars</li>
+                <li>Invite industry engineers to share AI development and career prospects</li>
+            </ul>
+            <a href="#top" class="back-top">↑ Back to Top</a>
+        </div>
+    </div>
+
+    <div id="english" class="detail">
+        <img src="https://picsum.photos/seed/english-education/400/300" alt="English Club">
+        <div class="detail-content">
+            <h2>English Club</h2>
+            <ul>
+                <li>Provide IELTS/TOEFL tutoring and oral English intensive training</li>
+                <li>Hold English corners, speeches, debates and drama performances</li>
+                <li>Organize English movie appreciation, book reading and writing skills sharing</li>
+                <li>Improve academic English for university courses and overseas exchange</li>
+            </ul>
+            <a href="#top" class="back-top">↑ Back to Top</a>
+        </div>
+    </div>
+
+    <div id="anime" class="detail">
+        <img src="https://picsum.photos/seed/anime-cosplay/400/300" alt="Anime Club">
+        <div class="detail-content">
+            <h2>Anime Club</h2>
+            <ul>
+                <li>Hold screenings of popular anime and discussions on plot and character creation</li>
+                <li>Teach cosplay prop making, makeup and stage performances</li>
+                <li>Organize hand-drawing, illustration creation and figure collection sharing</li>
+                <li>Participate in campus comic exhibitions and build a two-dimensional culture community</li>
+            </ul>
+            <a href="#top" class="back-top">↑ Back to Top</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
