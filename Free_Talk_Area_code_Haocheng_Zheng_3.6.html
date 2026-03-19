@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Talk Area</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #E0F7FA; height: 100vh; display: flex; }
+        .container { background: #FFF; width: 100%; height: 100vh; display: flex; flex-direction: column; }
+        .header { background: #2196F3; color: white; padding: 20px 40px; }
+        .header h1 { font-size: 28px; }
+        .content { padding: 40px; flex: 1; display: flex; flex-direction: column; justify-content: center; max-width: 600px; margin: 0 auto; width: 100%; }
+        .input-group { margin-bottom: 24px; }
+        label { display: block; color: #424242; font-weight: 600; margin-bottom: 10px; font-size: 16px; }
+        input, textarea { width: 100%; padding: 16px 20px; border: 2px solid #BDBDBD; border-radius: 8px; font-size: 18px; font-family: inherit; }
+        input:focus, textarea:focus { outline: none; border-color: #2196F3; }
+        input.error { border-color: #F44336; }
+        .error { color: #F44336; font-size: 14px; margin-top: 8px; display: none; }
+        .error.show { display: block; }
+        .btn { padding: 16px 32px; border: none; border-radius: 8px; font-size: 18px; font-weight: 600; cursor: pointer; width: 100%; }
+        .btn-primary { background: #2196F3; color: white; }
+        .btn-success { background: #4CAF50; color: white; }
+        .chat { display: none; flex: 1; flex-direction: column; }
+        .chat-header { background: #2196F3; color: white; padding: 20px 40px; }
+        .chat-header h2 { font-size: 24px; }
+        .messages { flex: 1; overflow-y: auto; padding: 30px 40px; background: #f5f5f5; display: flex; flex-direction: column; gap: 16px; }
+        .msg { max-width: 70%; padding: 16px 20px; border-radius: 16px; animation: fadeIn 0.3s; }
+        .msg.own { align-self: flex-end; background: #DCF8C6; }
+        .msg.other { align-self: flex-start; background: #FFF; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .msg-sender { font-size: 14px; font-weight: 600; color: #2196F3; margin-bottom: 6px; }
+        .msg-text { font-size: 16px; color: #424242; line-height: 1.5; word-wrap: break-word; }
+        .msg-time { font-size: 12px; color: #757575; margin-top: 6px; text-align: right; }
+        .input-area { padding: 20px 40px; background: #FFF; border-top: 2px solid #e0e0e0; display: flex; gap: 16px; }
+        textarea { flex: 1; min-height: 56px; resize: vertical; }
+        .btn-send { padding: 12px 24px; font-size: 14px; width: auto; }
+        .hidden { display: none !important; }
+        .show { display: flex !important; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header" id="mainHeader">
+            <h1>Free Talk Area</h1>
+            <p>Student Discussion Forum</p>
+        </div>
+        <div id="login" class="content">
+            <div id="step1">
+                <div class="input-group">
+                    <label>Student Number</label>
+                    <input id="sid" placeholder="Enter 8-digit number" maxlength="8">
+                    <div id="err" class="error">Error: Need exactly 8 digits. Press Continue again to retry.</div>
+                </div>
+                <button id="btn1" class="btn btn-primary">Continue</button>
+            </div>
+            <div id="step2" class="hidden">
+                <div class="input-group">
+                    <label>Nickname</label>
+                    <input id="nick" placeholder="Enter nickname">
+                </div>
+                <button id="btn2" class="btn btn-success">Join Chat</button>
+            </div>
+        </div>
+        <div id="chat" class="chat">
+            <div class="chat-header">
+                <h2>Free Talk Area</h2>
+                <p style="opacity:0.9;font-size:14px;">Student Discussion Room</p>
+            </div>
+            <div class="messages" id="msgs"></div>
+            <div class="input-area">
+                <textarea id="txt" placeholder="Type message..."></textarea>
+                <button class="btn btn-success btn-send" onclick="send()">Send</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        // User data and error state tracking
+        let user = {}, hasErr = false;
+        const $ = id => document.getElementById(id);
+        
+        // DOM element references
+        const sid = $('sid'), err = $('err'), btn1 = $('btn1'), step1 = $('step1'), step2 = $('step2');
+        const nick = $('nick'), btn2 = $('btn2'), login = $('login'), mainHeader = $('mainHeader');
+        const chat = $('chat'), msgs = $('msgs'), txt = $('txt');
+        
+        // Validate: exactly 8 digits
+        const valid = v => /^\d{8}$/.test(v.trim());
+        
+        // Handle Continue button or Enter key press
+        function check() {
+            if (hasErr) { location.reload(); return; } // Refresh on second attempt after error
+            if (!valid(sid.value)) {
+                sid.classList.add('error');
+                err.classList.add('show');
+                hasErr = true; // Set error flag for next click
+            } else {
+                sid.classList.remove('error');
+                err.classList.remove('show');
+                user.sid = sid.value.trim();
+                step1.classList.add('hidden');
+                step2.classList.remove('hidden');
+                nick.focus();
+            }
+        }
+        
+        // Event listeners for step 1 validation
+        btn1.addEventListener('click', e => { e.preventDefault(); check(); });
+        sid.addEventListener('keypress', e => { if (e.key === 'Enter') { e.preventDefault(); check(); } });
+        
+        // Join chat room with simulated history
+        btn2.addEventListener('click', () => {
+            user.nick = nick.value.trim() || 'Anonymous';
+            login.classList.add('hidden');
+            mainHeader.classList.add('hidden');
+            chat.classList.remove('hidden');
+            chat.classList.add('show');
+            add('CoffeeLover', 'Hey guys, anyone finished the assignment yet?', 'other', '10:23 AM');
+            add('NightOwl', 'Still working on it... due tomorrow right?', 'other', '10:25 AM');
+            add('System', `Welcome, ${user.nick}!`, 'other', '10:30 AM');
+            txt.focus();
+        });
+        nick.addEventListener('keypress', e => { if (e.key === 'Enter') btn2.click(); });
+        
+        // Add message to chat display
+        function add(sender, text, type, time) {
+            const d = document.createElement('div');
+            d.className = 'msg ' + type;
+            const t = time || new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+            d.innerHTML = `<div class="msg-sender">${sender}</div><div class="msg-text">${text.replace(/</g, '&lt;')}</div><div class="msg-time">${t}</div>`;
+            msgs.appendChild(d);
+            msgs.scrollTop = msgs.scrollHeight;
+        }
+        
+        // Send user message
+        function send() {
+            const t = txt.value.trim();
+            if (!t) return;
+            add(user.nick, t, 'own');
+            txt.value = '';
+            txt.style.height = 'auto';
+        }
+        
+        // Enter to send, Shift+Enter for new line
+        txt.addEventListener('keypress', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); } });
+        
+        // Auto-resize textarea height
+        txt.addEventListener('input', function() { this.style.height = 'auto'; this.style.height = Math.min(this.scrollHeight, 200) + 'px'; });
+    </script>
+</body>
+</html>
