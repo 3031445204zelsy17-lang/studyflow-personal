@@ -1,19 +1,27 @@
-# HKMU Campus Forum - 校园服务平台
+# HKMU Campus Forum - All-in-One Campus Service Platform
 
-香港都会大学（HKMU）校园一站式服务平台，提供多个实用模块。
+Hong Kong Metropolitan University (HKMU) integrated service platform with multiple practical modules.
 
-## 模块列表
+## ✨ New Feature: Unified Login System
 
-| 模块 | 功能 | 链接 |
-|------|------|------|
-| DSAI Course Planner | DSAI 课程规划与选课系统 | [进入](dsai-planner.html) |
-| HKMU News Portal | HKMU 新闻门户网站 | [进入](hkmu-news.html) |
-| Student Forum | 学生自由讨论区 | [进入](student-forum.html) |
-| Lost & Found | 失物招领系统 | [进入](lost-found.html) |
-| IT Club | IT 社团展示 | [进入](it-club.html) |
-| Main Interface | 主界面 | [进入](main-interface.html) |
+🎓 **One Login, Platform-Wide Access**
 
-## 技术栈
+- Login once on the main page, all modules automatically recognize you
+- Support custom avatar upload
+- Auto-persistent login state
+- Optional login, not mandatory
+
+## Module List
+
+| Module | Description | Link |
+|------|-------------|------|
+| DSAI Course Planner | DSAI course planning and selection system | [Enter](dsai-planner.html) |
+| HKMU News Portal | HKMU news portal (admin publishing) | [Enter](hkmu-news.html) |
+| Student Forum | Student discussion area (with avatar, real-time chat) | [Enter](student-forum.html) |
+| Lost & Found | Lost and found system | [Enter](lost-found.html) |
+| IT Club | IT club showcase | [Enter](it-club.html) |
+
+## Tech Stack
 
 - HTML5 + CSS3
 - JavaScript (ES6+)
@@ -22,38 +30,41 @@
 - Lucide Icons (via CDN)
 - Google Fonts
 
-## 功能特性
+## Features
 
-- ✅ 完全静态页面，无需后端服务器
-- ✅ 响应式设计，支持移动端
-- ✅ 使用 localStorage 进行数据持久化
-- ✅ 跨模块数据同步（DSAI 系统）
+- ✅ **Unified Login System** - One login, platform-wide access
+- ✅ Fully static pages, no backend server required
+- ✅ Responsive design, mobile-friendly
+- ✅ localStorage for data persistence
+- ✅ Cross-module data synchronization (DSAI system)
+- ✅ User avatar upload feature
+- ✅ Real-time chat system (Student Forum)
 
-## 本地运行
+## Local Development
 
-1. 克隆或下载本项目
-2. 直接在浏览器中打开 `index.html`
-3. 或使用本地服务器：
+1. Clone or download this project
+2. Open `index.html` directly in your browser
+3. Or use a local server:
    ```bash
    python3 -m http.server 8000
    ```
-4. 访问 http://localhost:8000
+4. Visit http://localhost:8000
 
-## 部署到 GitHub Pages
+## Deploy to GitHub Pages
 
-### 快速部署
+### Quick Deployment
 
-1. Fork 本仓库
-2. 进入仓库 **Settings** → **Pages**
-3. 选择 `main` 分支和 `/ (root)` 目录
-4. 保存并等待几分钟
-5. 访问 `https://your-username.github.io/campus-forum-github/`
+1. Fork this repository
+2. Go to repository **Settings** → **Pages**
+3. Select `main` branch and `/ (root)` directory
+4. Save and wait a few minutes
+5. Visit `https://your-username.github.io/campus-forum-github/`
 
-## 项目信息
+## Project Info
 
-- 开发时间：2026年3月
-- 开发团队：HKMU IT 小组
-- 许可证：MIT
+- Development Time: March 2026
+- Development Team: HKMU IT Group
+- License: MIT
 
 ---
 

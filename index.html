@@ -3,12 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HKMU Campus Forum - 校园服务平台</title>
+    <title>HKMU Campus Forum - All-in-One Service Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                    },
                     colors: {
                         'hkmu-blue': '#0066CC',
                         'hkmu-green': '#2E7D52',
@@ -17,113 +24,131 @@
             }
         }
     </script>
+    <!-- Unified User Management System -->
+    <link rel="stylesheet" href="js/campus-login.css">
 </head>
-<body class="bg-gradient-to-br from-blue-50 to-green-50 min-h-screen">
-    <div class="container mx-auto px-4 py-12">
-        <!-- Header -->
-        <div class="text-center mb-16">
-            <h1 class="text-5xl font-bold text-gray-800 mb-4">
-                🏫 HKMU Campus Forum
-            </h1>
-            <p class="text-xl text-gray-600">校园一站式服务平台</p>
-            <p class="text-sm text-gray-500 mt-2">HKMU All-in-One Campus Service Platform</p>
-        </div>
+<body class="min-h-screen font-sans" style="background: linear-gradient(135deg, #e0f2fe 0%, #dcfce7 50%, #e0f2fe 100%);">
+    <!-- Top user info bar -->
+    <div class="fixed top-0 right-0 p-4 z-50" id="userWidgetContainer">
+        <button onclick="showLoginModal()" class="bg-white/80 backdrop-blur-sm px-5 py-2.5 rounded-xl shadow-lg hover:shadow-xl transition-all text-sm font-semibold text-hkmu-blue border border-hkmu-blue/10" id="loginBtn">
+            Login
+        </button>
+    </div>
 
+    <!-- Hero Header -->
+    <header class="relative overflow-hidden">
+        <div class="absolute inset-0" style="background: linear-gradient(135deg, #0066CC 0%, #2E7D52 100%);"></div>
+        <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 80 80%22><circle cx=%2240%22 cy=%2240%22 r=%2232%22 fill=%22none%22 stroke=%22white%22 stroke-width=%220.5%22/></svg>'); background-size: 80px 80px;"></div>
+        <div class="relative container mx-auto px-4 pt-20 pb-16 text-center">
+            <h1 class="text-5xl md:text-6xl font-extrabold text-white mb-4 tracking-tight">
+                HKMU Campus Forum
+            </h1>
+            <p class="text-lg md:text-xl text-white/80 font-medium">All-in-One Campus Service Platform</p>
+            <div id="welcomeMessage" class="mt-4 text-lg"></div>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0">
+            <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" class="w-full h-12 md:h-16">
+                <path d="M0 60V20C360 0 720 40 1080 20C1260 10 1380 25 1440 30V60H0Z" fill="#dcfce7" fill-opacity="0.5"/>
+                <path d="M0 60V30C240 50 720 10 1080 35C1260 45 1380 35 1440 40V60H0Z" style="fill: #e0f2fe;"/>
+            </svg>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 pb-16">
         <!-- Module Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto -mt-4">
 
             <!-- DSAI Course Planner -->
-            <a href="dsai-planner.html" class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
-                <div class="h-48 bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
-                    <span class="text-6xl">📚</span>
+            <a href="dsai-planner.html" class="group bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100/80 hover:-translate-y-1">
+                <div class="h-44 flex items-center justify-center relative" style="background: linear-gradient(135deg, #0066CC 0%, #0088FF 100%);">
+                    <div class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <i data-lucide="book-open" class="w-8 h-8 text-white" stroke-width="1.5"></i>
+                    </div>
                 </div>
                 <div class="p-6">
                     <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-hkmu-blue transition-colors">
                         DSAI Course Planner
                     </h3>
-                    <p class="text-gray-600 text-sm">DSAI 课程规划与选课系统</p>
-                    <div class="mt-4 flex items-center text-hkmu-blue text-sm font-medium">
-                        进入系统 →
+                    <p class="text-gray-500 text-sm leading-relaxed">Browse and plan your Data Science & AI courses with interactive filters</p>
+                    <div class="mt-4 flex items-center text-hkmu-blue text-sm font-semibold group-hover:gap-2 transition-all">
+                        Explore
+                        <i data-lucide="arrow-right" class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform"></i>
                     </div>
                 </div>
             </a>
 
             <!-- HKMU News -->
-            <a href="hkmu-news.html" class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
-                <div class="h-48 bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center">
-                    <span class="text-6xl">📰</span>
+            <a href="hkmu-news.html" class="group bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100/80 hover:-translate-y-1">
+                <div class="h-44 flex items-center justify-center relative" style="background: linear-gradient(135deg, #0077E6 0%, #2E7D52 100%);">
+                    <div class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <i data-lucide="newspaper" class="w-8 h-8 text-white" stroke-width="1.5"></i>
+                    </div>
                 </div>
                 <div class="p-6">
                     <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-hkmu-green transition-colors">
                         HKMU News Portal
                     </h3>
-                    <p class="text-gray-600 text-sm">HKMU 新闻门户网站</p>
-                    <div class="mt-4 flex items-center text-hkmu-green text-sm font-medium">
-                        进入系统 →
+                    <p class="text-gray-500 text-sm leading-relaxed">Stay updated with the latest campus announcements and events</p>
+                    <div class="mt-4 flex items-center text-hkmu-green text-sm font-semibold group-hover:gap-2 transition-all">
+                        Explore
+                        <i data-lucide="arrow-right" class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform"></i>
                     </div>
                 </div>
             </a>
 
             <!-- Student Forum -->
-            <a href="student-forum.html" class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
-                <div class="h-48 bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center">
-                    <span class="text-6xl">💬</span>
+            <a href="student-forum.html" class="group bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100/80 hover:-translate-y-1">
+                <div class="h-44 flex items-center justify-center relative" style="background: linear-gradient(135deg, #1A8FE3 0%, #3BA575 100%);">
+                    <div class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <i data-lucide="message-circle" class="w-8 h-8 text-white" stroke-width="1.5"></i>
+                    </div>
                 </div>
                 <div class="p-6">
-                    <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-purple-600 transition-colors">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-hkmu-blue transition-colors">
                         Student Forum
                     </h3>
-                    <p class="text-gray-600 text-sm">学生自由讨论区</p>
-                    <div class="mt-4 flex items-center text-purple-600 text-sm font-medium">
-                        进入系统 →
+                    <p class="text-gray-500 text-sm leading-relaxed">Connect with fellow students through real-time discussions and chat</p>
+                    <div class="mt-4 flex items-center text-hkmu-blue text-sm font-semibold group-hover:gap-2 transition-all">
+                        Explore
+                        <i data-lucide="arrow-right" class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform"></i>
                     </div>
                 </div>
             </a>
 
             <!-- Lost & Found -->
-            <a href="lost-found.html" class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
-                <div class="h-48 bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center">
-                    <span class="text-6xl">🔍</span>
+            <a href="lost-found.html" class="group bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100/80 hover:-translate-y-1">
+                <div class="h-44 flex items-center justify-center relative" style="background: linear-gradient(135deg, #2E7D52 0%, #0066CC 100%);">
+                    <div class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <i data-lucide="search" class="w-8 h-8 text-white" stroke-width="1.5"></i>
+                    </div>
                 </div>
                 <div class="p-6">
-                    <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-orange-600 transition-colors">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-hkmu-green transition-colors">
                         Lost & Found
                     </h3>
-                    <p class="text-gray-600 text-sm">失物招领系统</p>
-                    <div class="mt-4 flex items-center text-orange-600 text-sm font-medium">
-                        进入系统 →
+                    <p class="text-gray-500 text-sm leading-relaxed">Report and search for lost items across the campus community</p>
+                    <div class="mt-4 flex items-center text-hkmu-green text-sm font-semibold group-hover:gap-2 transition-all">
+                        Explore
+                        <i data-lucide="arrow-right" class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform"></i>
                     </div>
                 </div>
             </a>
 
             <!-- IT Club -->
-            <a href="it-club.html" class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
-                <div class="h-48 bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center">
-                    <span class="text-6xl">💻</span>
-                </div>
-                <div class="p-6">
-                    <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-red-600 transition-colors">
-                        IT Club
-                    </h3>
-                    <p class="text-gray-600 text-sm">IT 社团展示</p>
-                    <div class="mt-4 flex items-center text-red-600 text-sm font-medium">
-                        进入系统 →
+            <a href="it-club.html" class="group bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100/80 hover:-translate-y-1">
+                <div class="h-44 flex items-center justify-center relative" style="background: linear-gradient(135deg, #005BBB 0%, #3A9D6A 100%);">
+                    <div class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <i data-lucide="monitor" class="w-8 h-8 text-white" stroke-width="1.5"></i>
                     </div>
                 </div>
-            </a>
-
-            <!-- Main Interface -->
-            <a href="main-interface.html" class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
-                <div class="h-48 bg-gradient-to-br from-teal-500 to-teal-600 flex items-center justify-center">
-                    <span class="text-6xl">🎯</span>
-                </div>
                 <div class="p-6">
-                    <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-teal-600 transition-colors">
-                        Main Interface
+                    <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-hkmu-blue transition-colors">
+                        IT Club
                     </h3>
-                    <p class="text-gray-600 text-sm">主界面</p>
-                    <div class="mt-4 flex items-center text-teal-600 text-sm font-medium">
-                        进入系统 →
+                    <p class="text-gray-500 text-sm leading-relaxed">Discover and join vibrant student clubs and organizations</p>
+                    <div class="mt-4 flex items-center text-hkmu-blue text-sm font-semibold group-hover:gap-2 transition-all">
+                        Explore
+                        <i data-lucide="arrow-right" class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform"></i>
                     </div>
                 </div>
             </a>
@@ -131,10 +156,269 @@
         </div>
 
         <!-- Footer -->
-        <div class="mt-16 text-center text-gray-500 text-sm">
-            <p>© 2026 Hong Kong Metropolitan University</p>
-            <p class="mt-1">81 Chung Hau Street, Homantin, Kowloon, Hong Kong</p>
+        <footer class="mt-20 text-center">
+            <div class="inline-flex items-center gap-2 text-gray-400 text-sm">
+                <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+                <span>&copy; 2026 Hong Kong Metropolitan University</span>
+            </div>
+            <p class="text-gray-400/70 text-xs mt-1">81 Chung Hau Street, Homantin, Kowloon, Hong Kong</p>
+        </footer>
+    </div>
+
+    <!-- Unified Login Modal -->
+    <div class="campus-login-overlay" id="loginModal">
+        <div class="campus-login-card">
+            <div class="campus-login-header">
+                <div class="campus-login-icon"><i data-lucide="graduation-cap" class="w-8 h-8 text-white" stroke-width="1.5"></i></div>
+                <h1 class="campus-login-title">Welcome to HKMU Campus</h1>
+                <p class="campus-login-subtitle">Login for full access</p>
+            </div>
+
+            <!-- Step 1: Student Number Input -->
+            <div class="campus-login-step active" id="loginStep1">
+                <div class="campus-form-group">
+                    <label class="campus-form-label" for="campusStudentId">Student Number</label>
+                    <input
+                        type="text"
+                        id="campusStudentId"
+                        class="campus-form-input"
+                        placeholder="Enter your 8-digit student ID"
+                        maxlength="8"
+                        pattern="[0-9]*"
+                        inputmode="numeric"
+                    >
+                    <div class="campus-error-message" id="campusErrorMessage">Please enter a valid 8-digit student ID</div>
+                </div>
+                <button class="campus-btn campus-btn-primary" id="campusContinueBtn">
+                    Continue →
+                </button>
+            </div>
+
+            <!-- Step 2: Nickname & Avatar -->
+            <div class="campus-login-step" id="loginStep2">
+                <div class="campus-form-group">
+                    <label class="campus-form-label" for="campusNickname">Nickname</label>
+                    <input
+                        type="text"
+                        id="campusNickname"
+                        class="campus-form-input"
+                        placeholder="What should we call you?"
+                        maxlength="20"
+                    >
+                </div>
+                <div class="campus-form-group">
+                    <label class="campus-form-label">Profile Photo (Optional)</label>
+                    <input type="file" id="campusProfilePhoto" accept="image/*">
+                    <label for="campusProfilePhoto" class="campus-file-label" id="campusFileLabel">
+                        📷 Click to upload photo
+                    </label>
+                    <img src="" alt="Preview" class="campus-preview-avatar" id="campusPreviewAvatar">
+                </div>
+                <div class="campus-btn-group">
+                    <button class="campus-btn campus-btn-secondary" id="campusBackBtn">← Back</button>
+                    <button class="campus-btn campus-btn-success" id="campusJoinBtn">
+                        Enter Campus
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
+
+    <!-- Load user management script -->
+    <script src="js/campus-user.js"></script>
+    <script>
+        // Login-related DOM elements
+        const loginModal = document.getElementById('loginModal');
+        const loginStep1 = document.getElementById('loginStep1');
+        const loginStep2 = document.getElementById('loginStep2');
+        const campusStudentId = document.getElementById('campusStudentId');
+        const campusNickname = document.getElementById('campusNickname');
+        const campusErrorMessage = document.getElementById('campusErrorMessage');
+        const campusContinueBtn = document.getElementById('campusContinueBtn');
+        const campusBackBtn = document.getElementById('campusBackBtn');
+        const campusJoinBtn = document.getElementById('campusJoinBtn');
+        const campusProfilePhoto = document.getElementById('campusProfilePhoto');
+        const campusFileLabel = document.getElementById('campusFileLabel');
+        const campusPreviewAvatar = document.getElementById('campusPreviewAvatar');
+        const userWidgetContainer = document.getElementById('userWidgetContainer');
+        const welcomeMessage = document.getElementById('welcomeMessage');
+
+        let uploadedAvatar = null;
+        let hasError = false;
+
+        // Validate student ID
+        function isValidStudentId(value) {
+            return /^\d{8}$/.test(value.trim());
+        }
+
+        // Show login modal
+        function showLoginModal() {
+            loginModal.classList.add('active');
+            campusStudentId.focus();
+        }
+
+        // Hide login modal
+        function hideLoginModal() {
+            loginModal.classList.remove('active');
+            resetLoginForm();
+        }
+
+        // Reset login form
+        function resetLoginForm() {
+            campusStudentId.value = '';
+            campusNickname.value = '';
+            campusPreviewAvatar.src = '';
+            campusPreviewAvatar.classList.remove('active');
+            campusFileLabel.textContent = '📷 Click to upload photo';
+            campusFileLabel.classList.remove('has-file');
+            campusStudentId.classList.remove('error');
+            campusErrorMessage.classList.remove('show');
+            loginStep1.classList.add('active');
+            loginStep2.classList.remove('active');
+            uploadedAvatar = null;
+            hasError = false;
+        }
+
+        // Update user info display
+        function updateUserWidget() {
+            if (CampusUser.isLoggedIn()) {
+                const user = CampusUser.getUser();
+                userWidgetContainer.innerHTML = `
+                    <div class="campus-user-widget">
+                        <img src="${user.avatar}" alt="Avatar" class="campus-user-avatar">
+                        <div class="campus-user-info">
+                            <div class="campus-user-name">${user.nickname}</div>
+                            <div class="campus-user-id">ID: ${user.studentId}</div>
+                        </div>
+                        <button class="campus-logout-btn" onclick="handleLogout()">Logout</button>
+                    </div>
+                `;
+                welcomeMessage.innerHTML = `
+                    <span class="inline-block bg-white/20 backdrop-blur-sm text-white px-5 py-2 rounded-xl text-base font-medium">
+                        Welcome back, ${user.nickname}!
+                    </span>
+                `;
+            } else {
+                userWidgetContainer.innerHTML = `
+                    <button onclick="showLoginModal()" class="bg-white/80 backdrop-blur-sm px-5 py-2.5 rounded-xl shadow-lg hover:shadow-xl transition-all text-sm font-semibold text-hkmu-blue border border-hkmu-blue/10">
+                        Login
+                    </button>
+                `;
+                welcomeMessage.innerHTML = '';
+            }
+        }
+
+        // Logout handler
+        function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                CampusUser.logout();
+                updateUserWidget();
+            }
+        }
+
+        // Step 1: Continue button
+        campusContinueBtn.addEventListener('click', () => {
+            const studentId = campusStudentId.value.trim();
+
+            if (hasError) {
+                campusStudentId.value = '';
+                campusStudentId.classList.remove('error');
+                campusErrorMessage.classList.remove('show');
+                hasError = false;
+                return;
+            }
+
+            if (!isValidStudentId(studentId)) {
+                campusStudentId.classList.add('error');
+                campusErrorMessage.classList.add('show');
+                hasError = true;
+            } else {
+                campusStudentId.classList.remove('error');
+                campusErrorMessage.classList.remove('show');
+                loginStep1.classList.remove('active');
+                loginStep2.classList.add('active');
+                campusNickname.focus();
+            }
+        });
+
+        // Enter key handler
+        campusStudentId.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                campusContinueBtn.click();
+            }
+        });
+
+        // Back button
+        campusBackBtn.addEventListener('click', () => {
+            loginStep2.classList.remove('active');
+            loginStep1.classList.add('active');
+        });
+
+        // Avatar upload
+        campusProfilePhoto.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    uploadedAvatar = ev.target.result;
+                    campusPreviewAvatar.src = uploadedAvatar;
+                    campusPreviewAvatar.classList.add('active');
+                    campusFileLabel.textContent = `✅ ${file.name}`;
+                    campusFileLabel.classList.add('has-file');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Enter key handler
+        campusNickname.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                campusJoinBtn.click();
+            }
+        });
+
+        // Complete login
+        campusJoinBtn.addEventListener('click', () => {
+            const nickname = campusNickname.value.trim() || 'Anonymous';
+            const studentId = campusStudentId.value.trim();
+
+            CampusUser.login({
+                studentId: studentId,
+                nickname: nickname,
+                avatar: uploadedAvatar
+            });
+
+            hideLoginModal();
+            updateUserWidget();
+        });
+
+        // Click overlay to close
+        loginModal.addEventListener('click', (e) => {
+            if (e.target === loginModal) {
+                hideLoginModal();
+            }
+        });
+
+        // Listen for user state changes
+        CampusUser.onChange((event, user) => {
+            updateUserWidget();
+        });
+
+        // Update display on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateUserWidget();
+
+            // Show welcome message if user just logged in
+            if (CampusUser.isLoggedIn() && CampusUser.showLoginPrompt()) {
+                const user = CampusUser.getUser();
+                console.log('Welcome back,', user.nickname);
+            }
+        });
+
+        // Initialize Lucide icons
+        lucide.createIcons();
+    </script>
 </body>
 </html>
