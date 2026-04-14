@@ -19,7 +19,7 @@ A multi-module campus web application for HKMU students. Users can plan courses,
 ## Features
 
 - Unified login system (log in once, access all modules)
-- Cross-module user state sharing via localStorage
+- Cross-module user state sharing via localStorage 
 - Responsive design for desktop and mobile
 - Avatar upload support
 - No backend required, runs entirely in the browser
