@@ -1,71 +1,42 @@
-# HKMU Campus Forum - All-in-One Campus Service Platform
+# HKMU Campus Forum
 
-Hong Kong Metropolitan University (HKMU) integrated service platform with multiple practical modules.
+IT1030SEF Group 11 - All-in-One Campus Service Platform
 
-## ✨ New Feature: Unified Login System
+## About
 
-🎓 **One Login, Platform-Wide Access**
+A multi-module campus web application for HKMU students. Users can plan courses, read campus news, chat with each other, report lost items, and browse student clubs.
 
-- Login once on the main page, all modules automatically recognize you
-- Support custom avatar upload
-- Auto-persistent login state
-- Optional login, not mandatory
+## Modules
 
-## Module List
-
-| Module | Description | Link |
-|------|-------------|------|
-| DSAI Course Planner | DSAI course planning and selection system | [Enter](dsai-planner.html) |
-| HKMU News Portal | HKMU news portal (admin publishing) | [Enter](hkmu-news.html) |
-| Student Forum | Student discussion area (with avatar, real-time chat) | [Enter](student-forum.html) |
-| Lost & Found | Lost and found system | [Enter](lost-found.html) |
-| IT Club | IT club showcase | [Enter](it-club.html) |
-
-## Tech Stack
-
-- HTML5 + CSS3
-- JavaScript (ES6+)
-- Tailwind CSS (via CDN)
-- Bootstrap 5 (via CDN)
-- Lucide Icons (via CDN)
-- Google Fonts
+- **Main Page** - Central navigation hub with login system
+- **DSAI Course Planner** - Browse and select Data Science & AI courses
+- **DSAI Course Detail** - View individual course information
+- **HKMU News Portal** - Campus news with admin publishing
+- **Student Forum** - Real-time chat with avatar support
+- **Lost & Found** - Report and search for lost items
+- **IT Club** - Student club showcase
 
 ## Features
 
-- ✅ **Unified Login System** - One login, platform-wide access
-- ✅ Fully static pages, no backend server required
-- ✅ Responsive design, mobile-friendly
-- ✅ localStorage for data persistence
-- ✅ Cross-module data synchronization (DSAI system)
-- ✅ User avatar upload feature
-- ✅ Real-time chat system (Student Forum)
+- Unified login system (log in once, access all modules)
+- Cross-module user state sharing via localStorage
+- Responsive design for desktop and mobile
+- Avatar upload support
+- No backend required, runs entirely in the browser
 
-## Local Development
+## Tech Stack
 
-1. Clone or download this project
-2. Open `index.html` directly in your browser
-3. Or use a local server:
-   ```bash
-   python3 -m http.server 8000
-   ```
-4. Visit http://localhost:8000
+- HTML5, CSS3, JavaScript (ES6+)
+- Tailwind CSS, Bootstrap 5 (CDN)
+- Lucide Icons (CDN)
+- localStorage for data persistence
 
-## Deploy to GitHub Pages
+## Getting Started
 
-### Quick Deployment
-
-1. Fork this repository
-2. Go to repository **Settings** → **Pages**
-3. Select `main` branch and `/ (root)` directory
-4. Save and wait a few minutes
-5. Visit `https://your-username.github.io/campus-forum-github/`
+Open `index.html` in a browser to get started.
 
 ## Project Info
 
-- Development Time: March 2026
-- Development Team: HKMU IT Group
-- License: MIT
-
----
-
-© 2026 Hong Kong Metropolitan University
+- Course: IT1030SEF - Introduction to Internet Application Development
+- Semester: Spring 2026
+- GitHub: https://github.com/3031445204zelsy17-lang/HKMU_Campus_Forum
