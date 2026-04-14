@@ -24,14 +24,20 @@
 <nav class="bg-white shadow-md sticky top-0 z-50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
     <div class="flex items-center space-x-3">
-      <div class="w-10 h-10 bg-gradient-to-br from-hkmu-blue to-hkmu-green rounded-lg flex items-center justify-center"><i data-lucide="graduation-cap" class="w-6 h-6 text-white"></i></div>
-      <span class="text-xl font-bold">HKMU DSAI Planner</span>
+      <a href="index.html" class="flex items-center space-x-3 hover:opacity-80 transition-opacity" title="Back to Home">
+        <div class="w-10 h-10 bg-gradient-to-br from-hkmu-blue to-hkmu-green rounded-lg flex items-center justify-center"><i data-lucide="graduation-cap" class="w-6 h-6 text-white"></i></div>
+        <div>
+          <span class="text-xl font-bold">HKMU DSAI Planner</span>
+          <div class="text-xs text-text-secondary">← Back to Home</div>
+        </div>
+      </a>
     </div>
     <div class="hidden md:flex items-center space-x-6">
       <button onclick="showPage('home')" class="nav-link text-hkmu-blue font-semibold hover:text-hkmu-blue transition-colors">Home</button>
       <button onclick="showPage('progress')" class="nav-link text-text-secondary hover:text-hkmu-blue transition-colors">Degree Progress</button>
       <button onclick="showPage('courses')" class="nav-link text-text-secondary hover:text-hkmu-blue transition-colors">All Courses</button>
       <button onclick="showPage('plan')" class="nav-link text-text-secondary hover:text-hkmu-blue transition-colors">Study Plan</button>
+      <a href="index.html" class="nav-link text-green-600 hover:text-green-700 transition-colors font-medium"><i data-lucide="home" class="w-4 h-4 inline-block align-text-bottom"></i> Back to Home</a>
     </div>
     <button id="mobileMenuBtn" class="md:hidden p-2 rounded-lg hover:bg-gray-100"><i data-lucide="menu" class="w-6 h-6"></i></button>
   </div>
@@ -40,6 +46,7 @@
     <button onclick="showPage('progress')" class="block w-full text-left py-2 px-4 rounded-lg hover:bg-gray-100 text-text-secondary">Degree Progress</button>
     <button onclick="showPage('courses')" class="block w-full text-left py-2 px-4 rounded-lg hover:bg-gray-100 text-text-secondary">All Courses</button>
     <button onclick="showPage('plan')" class="block w-full text-left py-2 px-4 rounded-lg hover:bg-gray-100 text-text-secondary">Study Plan</button>
+    <a href="index.html" class="block w-full text-left py-2 px-4 rounded-lg bg-green-50 text-green-700 hover:bg-green-100 font-medium"><i data-lucide="home" class="w-4 h-4 inline-block align-text-bottom"></i> Back to Home</a>
   </div>
 </nav>
 <main id="mainContent"></main>

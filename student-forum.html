@@ -3,149 +3,1014 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Talk Area</title>
+    <title>Student Forum - HKMU</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', sans-serif; background: #E0F7FA; height: 100vh; display: flex; }
-        .container { background: #FFF; width: 100%; height: 100vh; display: flex; flex-direction: column; }
-        .header { background: #2196F3; color: white; padding: 20px 40px; }
-        .header h1 { font-size: 28px; }
-        .content { padding: 40px; flex: 1; display: flex; flex-direction: column; justify-content: center; max-width: 600px; margin: 0 auto; width: 100%; }
-        .input-group { margin-bottom: 24px; }
-        label { display: block; color: #424242; font-weight: 600; margin-bottom: 10px; font-size: 16px; }
-        input, textarea { width: 100%; padding: 16px 20px; border: 2px solid #BDBDBD; border-radius: 8px; font-size: 18px; font-family: inherit; }
-        input:focus, textarea:focus { outline: none; border-color: #2196F3; }
-        input.error { border-color: #F44336; }
-        .error { color: #F44336; font-size: 14px; margin-top: 8px; display: none; }
-        .error.show { display: block; }
-        .btn { padding: 16px 32px; border: none; border-radius: 8px; font-size: 18px; font-weight: 600; cursor: pointer; width: 100%; }
-        .btn-primary { background: #2196F3; color: white; }
-        .btn-success { background: #4CAF50; color: white; }
-        .chat { display: none; flex: 1; flex-direction: column; }
-        .chat-header { background: #2196F3; color: white; padding: 20px 40px; }
-        .chat-header h2 { font-size: 24px; }
-        .messages { flex: 1; overflow-y: auto; padding: 30px 40px; background: #f5f5f5; display: flex; flex-direction: column; gap: 16px; }
-        .msg { max-width: 70%; padding: 16px 20px; border-radius: 16px; animation: fadeIn 0.3s; }
-        .msg.own { align-self: flex-end; background: #DCF8C6; }
-        .msg.other { align-self: flex-start; background: #FFF; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .msg-sender { font-size: 14px; font-weight: 600; color: #2196F3; margin-bottom: 6px; }
-        .msg-text { font-size: 16px; color: #424242; line-height: 1.5; word-wrap: break-word; }
-        .msg-time { font-size: 12px; color: #757575; margin-top: 6px; text-align: right; }
-        .input-area { padding: 20px 40px; background: #FFF; border-top: 2px solid #e0e0e0; display: flex; gap: 16px; }
-        textarea { flex: 1; min-height: 56px; resize: vertical; }
-        .btn-send { padding: 12px 24px; font-size: 14px; width: auto; }
-        .hidden { display: none !important; }
-        .show { display: flex !important; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0066CC;
+            --primary-dark: #0052a3;
+            --secondary: #2E7D52;
+            --accent: #00BCD4;
+            --bg-light: #F5F7FA;
+            --text-dark: #1A1A2E;
+            --text-secondary: #6B7280;
+            --border-color: #E5E7EB;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, var(--bg-light) 0%, #E3F2FD 100%);
+            min-height: 100vh;
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Simplified top navigation */
+        .top-nav {
+            background: white;
+            box-shadow: var(--shadow-sm);
+            padding: 0 24px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 9999;
+        }
+
+        .top-nav-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .top-nav-logo-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: inherit;
+            transition: opacity 0.2s;
+        }
+
+        .top-nav-logo-link:hover {
+            opacity: 0.8;
+            text-decoration: none;
+        }
+
+        .top-nav-logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            pointer-events: none;
+        }
+
+        .top-nav-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .top-nav-subtitle {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .top-nav-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-link {
+            padding: 8px 16px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .nav-link:hover {
+            background: var(--bg-light);
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-link:active {
+            transform: scale(0.98);
+        }
+
+        .nav-link:visited {
+            color: var(--text-secondary);
+        }
+
+        /* Main container - centered layout */
+        .main-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 32px 24px;
+            min-height: calc(100vh - 64px);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Login section */
+        .login-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 0;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 24px;
+            box-shadow: var(--shadow-lg);
+            padding: 48px;
+            width: 100%;
+            max-width: 480px;
+            animation: slideUp 0.4s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .login-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 40px;
+            box-shadow: 0 8px 20px rgba(0, 102, 204, 0.3);
+        }
+
+        .login-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .login-subtitle {
+            font-size: 15px;
+            color: var(--text-secondary);
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.2s;
+            background: var(--bg-light);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.1);
+        }
+
+        .form-input.error {
+            border-color: #EF4444;
+            background: #FEF2F2;
+        }
+
+        .error-message {
+            color: #EF4444;
+            font-size: 13px;
+            margin-top: 8px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 102, 204, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--secondary), #236B42);
+            color: white;
+            box-shadow: 0 4px 12px rgba(46, 125, 82, 0.3);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(46, 125, 82, 0.4);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Chat interface */
+        .chat-container {
+            display: none;
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            height: calc(100vh - 140px);
+            animation: slideUp 0.4s ease-out;
+        }
+
+        .chat-container.show {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-header-info h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .chat-header-info p {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .chat-header-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .chat-btn {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .chat-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .messages-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+            background: var(--bg-light);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .message {
+            max-width: 70%;
+            padding: 14px 18px;
+            border-radius: 18px;
+            animation: messageIn 0.3s ease-out;
+        }
+
+        @keyframes messageIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.own {
+            align-self: flex-end;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            border-bottom-right-radius: 6px;
+        }
+
+        .message.other {
+            align-self: flex-start;
+            background: white;
+            box-shadow: var(--shadow-sm);
+            border-bottom-left-radius: 6px;
+        }
+
+        .message-sender {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .message.other .message-sender {
+            color: var(--primary);
+        }
+
+        .message.own .message-sender {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .message-text {
+            font-size: 15px;
+            line-height: 1.5;
+            word-wrap: break-word;
+        }
+
+        .message.other .message-text {
+            color: var(--text-dark);
+        }
+
+        .message.own .message-text {
+            color: white;
+        }
+
+        .message-time {
+            font-size: 11px;
+            margin-top: 6px;
+            opacity: 0.7;
+            text-align: right;
+        }
+
+        .message.other .message-time {
+            color: var(--text-secondary);
+        }
+
+        .message.own .message-time {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .input-section {
+            padding: 16px 24px;
+            background: white;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        .message-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 15px;
+            font-family: inherit;
+            resize: none;
+            min-height: 48px;
+            max-height: 120px;
+            transition: all 0.2s;
+        }
+
+        .message-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.1);
+        }
+
+        .send-btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .top-nav {
+                padding: 0 16px;
+            }
+
+            .nav-link {
+                display: none;
+            }
+
+            .main-wrapper {
+                padding: 24px 16px;
+            }
+
+            .login-card {
+                padding: 32px 24px;
+            }
+
+            .message {
+                max-width: 85%;
+            }
+
+            .chat-header-info h2 {
+                font-size: 18px;
+            }
+        }
+
+        /* Scrollbar styling */
+        .messages-area::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .messages-area::-webkit-scrollbar-track {
+            background: var(--bg-light);
+        }
+
+        .messages-area::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 4px;
+        }
+
+        .messages-area::-webkit-scrollbar-thumb:hover {
+            background: #94A3B8;
+        }
+
+        /* File label styling */
+        .file-label:hover, .file-label.has-file {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: rgba(0, 102, 204, 0.05);
+        }
+
+        .preview-avatar.active {
+            display: block !important;
+        }
+
+        /* Login prompt styling */
+        .login-prompt {
+            text-align: center;
+        }
+
+        .login-description {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .login-subdescription {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
     </style>
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
-    <div class="container">
-        <div class="header" id="mainHeader">
-            <h1>Free Talk Area</h1>
-            <p>Student Discussion Forum</p>
-        </div>
-        <div id="login" class="content">
-            <div id="step1">
-                <div class="input-group">
-                    <label>Student Number</label>
-                    <input id="sid" placeholder="Enter 8-digit number" maxlength="8">
-                    <div id="err" class="error">Error: Need exactly 8 digits. Press Continue again to retry.</div>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <div class="top-nav-left">
+            <a href="index.html" class="top-nav-logo-link">
+                <div class="top-nav-logo"><i data-lucide="message-circle" class="w-5 h-5 text-white"></i></div>
+                <div>
+                    <div class="top-nav-title">Student Forum</div>
+                    <div class="top-nav-subtitle">HKMU</div>
                 </div>
-                <button id="btn1" class="btn btn-primary">Continue</button>
-            </div>
-            <div id="step2" class="hidden">
-                <div class="input-group">
-                    <label>Nickname</label>
-                    <input id="nick" placeholder="Enter nickname">
+            </a>
+        </div>
+        <div class="top-nav-right">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="dsai-planner.html" class="nav-link">DSAI</a>
+            <a href="hkmu-news.html" class="nav-link">News</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-wrapper">
+        <!-- Login Section -->
+        <div class="login-container" id="loginSection">
+            <div class="login-card">
+                <div class="login-header">
+                    <div class="login-icon"><i data-lucide="message-circle" class="w-8 h-8 text-white"></i></div>
+                    <h1 class="login-title">Student Discussion Forum</h1>
+                    <p class="login-subtitle">Join the conversation with your classmates</p>
                 </div>
-                <button id="btn2" class="btn btn-success">Join Chat</button>
+
+                <!-- Login Prompt -->
+                <div class="login-prompt">
+                    <p class="login-description">Please login first to join the discussion</p>
+                    <p class="login-subdescription">Please login first to join the discussion</p>
+                    <a href="index.html" class="btn btn-primary" style="display: inline-flex; text-decoration: none;">
+                        Go to Login →
+                    </a>
+                </div>
+
+                <!-- Step 1: Student ID (hidden - kept for compatibility) -->
+                <div id="step1" style="display: none;">
+                    <div class="form-group">
+                        <label class="form-label" for="studentId">Student Number</label>
+                        <input
+                            type="text"
+                            id="studentId"
+                            class="form-input"
+                            placeholder="Enter your 8-digit student ID"
+                            maxlength="8"
+                            pattern="[0-9]*"
+                            inputmode="numeric"
+                        >
+                        <div class="error-message" id="errorMessage">Please enter a valid 8-digit student ID</div>
+                    </div>
+                    <button class="btn btn-primary" id="continueBtn">
+                        Continue →
+                    </button>
+                </div>
+
+                <!-- Step 2: Nickname & Avatar (hidden - kept for compatibility) -->
+                <div id="step2" class="hidden" style="display: none;">
+                    <div class="form-group">
+                        <label class="form-label" for="nickname">Choose a Nickname</label>
+                        <input
+                            type="text"
+                            id="nickname"
+                            class="form-input"
+                            placeholder="How should we call you?"
+                            maxlength="20"
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Profile Photo (Optional)</label>
+                        <input type="file" id="profilePhoto" accept="image/*" style="position: absolute; left: -9999px;">
+                        <label for="profilePhoto" class="file-label" id="fileLabel" style="display: block; padding: 12px 16px; border: 2px dashed var(--border-color); border-radius: 12px; text-align: center; color: var(--text-secondary); cursor: pointer; transition: all 0.2s;">
+                            📷 Click to upload photo (or use default avatar)
+                        </label>
+                        <img src="" alt="Preview" class="preview-avatar" id="previewAvatar" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin: 16px auto 0; display: none; border: 3px solid var(--primary);">
+                    </div>
+                    <button class="btn btn-success" id="joinBtn">
+                        Join Chat
+                    </button>
+                </div>
             </div>
         </div>
-        <div id="chat" class="chat">
+
+        <!-- Chat Section -->
+        <div class="chat-container" id="chatSection">
             <div class="chat-header">
-                <h2>Free Talk Area</h2>
-                <p style="opacity:0.9;font-size:14px;">Student Discussion Room</p>
+                <div class="chat-header-info">
+                    <h2>Student Forum</h2>
+                    <p>
+                        <img id="userAvatarDisplay" src="" alt="" style="width: 24px; height: 24px; border-radius: 50%; vertical-align: middle; margin-right: 8px; display: none; border: 2px solid white;">
+                        <span id="userNicknameDisplay"></span> • Discussion Room • <span id="onlineCount">12 online</span>
+                    </p>
+                </div>
+                <div class="chat-header-actions">
+                    <button class="chat-btn" id="clearBtn">Clear</button>
+                    <button class="chat-btn" id="logoutBtn">Logout</button>
+                </div>
             </div>
-            <div class="messages" id="msgs"></div>
-            <div class="input-area">
-                <textarea id="txt" placeholder="Type message..."></textarea>
-                <button class="btn btn-success btn-send" onclick="send()">Send</button>
+
+            <div class="messages-area" id="messagesArea"></div>
+
+            <div class="input-section">
+                <textarea
+                    id="messageInput"
+                    class="message-input"
+                    placeholder="Type your message..."
+                    rows="1"
+                ></textarea>
+                <button class="send-btn" id="sendBtn">Send</button>
             </div>
         </div>
     </div>
+
+    <script src="js/campus-user.js"></script>
     <script>
-        // User data and error state tracking
-        let user = {}, hasErr = false;
-        const $ = id => document.getElementById(id);
-        
-        // DOM element references
-        const sid = $('sid'), err = $('err'), btn1 = $('btn1'), step1 = $('step1'), step2 = $('step2');
-        const nick = $('nick'), btn2 = $('btn2'), login = $('login'), mainHeader = $('mainHeader');
-        const chat = $('chat'), msgs = $('msgs'), txt = $('txt');
-        
-        // Validate: exactly 8 digits
-        const valid = v => /^\d{8}$/.test(v.trim());
-        
-        // Handle Continue button or Enter key press
-        function check() {
-            if (hasErr) { location.reload(); return; } // Refresh on second attempt after error
-            if (!valid(sid.value)) {
-                sid.classList.add('error');
-                err.classList.add('show');
-                hasErr = true; // Set error flag for next click
-            } else {
-                sid.classList.remove('error');
-                err.classList.remove('show');
-                user.sid = sid.value.trim();
-                step1.classList.add('hidden');
-                step2.classList.remove('hidden');
-                nick.focus();
+        // Student Forum with Enhanced UI and localStorage persistence
+        const STORAGE_KEY = 'student_forum_messages';
+        const MAX_MESSAGES = 100;
+
+        let user = {};
+        let chatMessages = [];
+
+        // Storage functions for messages only
+        function loadFromStorage() {
+            try {
+                const data = localStorage.getItem(STORAGE_KEY);
+                if (data) {
+                    const parsed = JSON.parse(data);
+                    chatMessages = parsed.messages || [];
+                }
+            } catch (e) {
+                console.error('Storage load error:', e);
             }
         }
-        
-        // Event listeners for step 1 validation
-        btn1.addEventListener('click', e => { e.preventDefault(); check(); });
-        sid.addEventListener('keypress', e => { if (e.key === 'Enter') { e.preventDefault(); check(); } });
-        
-        // Join chat room with simulated history
-        btn2.addEventListener('click', () => {
-            user.nick = nick.value.trim() || 'Anonymous';
-            login.classList.add('hidden');
-            mainHeader.classList.add('hidden');
-            chat.classList.remove('hidden');
-            chat.classList.add('show');
-            add('CoffeeLover', 'Hey guys, anyone finished the assignment yet?', 'other', '10:23 AM');
-            add('NightOwl', 'Still working on it... due tomorrow right?', 'other', '10:25 AM');
-            add('System', `Welcome, ${user.nick}!`, 'other', '10:30 AM');
-            txt.focus();
+
+        function saveToStorage() {
+            try {
+                const data = {
+                    messages: chatMessages.slice(-MAX_MESSAGES)
+                };
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            } catch (e) {
+                console.error('Storage save error:', e);
+            }
+        }
+
+        function clearStorage() {
+            localStorage.removeItem(STORAGE_KEY);
+            chatMessages = [];
+        }
+
+        // DOM Elements
+        const loginSection = document.getElementById('loginSection');
+        const chatSection = document.getElementById('chatSection');
+        const step1 = document.getElementById('step1');
+        const step2 = document.getElementById('step2');
+        const studentIdInput = document.getElementById('studentId');
+        const nicknameInput = document.getElementById('nickname');
+        const errorMessage = document.getElementById('errorMessage');
+        const continueBtn = document.getElementById('continueBtn');
+        const joinBtn = document.getElementById('joinBtn');
+        const messagesArea = document.getElementById('messagesArea');
+        const messageInput = document.getElementById('messageInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const profilePhoto = document.getElementById('profilePhoto');
+        const fileLabel = document.getElementById('fileLabel');
+        const previewAvatar = document.getElementById('previewAvatar');
+
+        // Default avatar (generated data URI for simplicity)
+        const defaultAvatar = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"><rect width="80" height="80" fill="%23E3F2FD"/><circle cx="40" cy="30" r="12" fill="%230066CC"/><ellipse cx="40" cy="55" rx="16" ry="12" fill="%230066CC"/></svg>');
+
+        // Validation
+        function isValidStudentId(value) {
+            return /^\d{8}$/.test(value.trim());
+        }
+
+        // Continue button handler
+        continueBtn.addEventListener('click', () => {
+            const studentId = studentIdInput.value.trim();
+
+            if (hasError) {
+                // Reset error state
+                studentIdInput.value = '';
+                studentIdInput.classList.remove('error');
+                errorMessage.classList.remove('show');
+                hasError = false;
+                return;
+            }
+
+            if (!isValidStudentId(studentId)) {
+                studentIdInput.classList.add('error');
+                errorMessage.classList.add('show');
+                hasError = true;
+            } else {
+                studentIdInput.classList.remove('error');
+                errorMessage.classList.remove('show');
+                user.studentId = studentId;
+                saveToStorage();
+
+                // Transition to step 2
+                step1.classList.add('hidden');
+                step2.classList.remove('hidden');
+
+                // Restore nickname if exists
+                if (user.nickname) {
+                    nicknameInput.value = user.nickname;
+                }
+                nicknameInput.focus();
+            }
         });
-        nick.addEventListener('keypress', e => { if (e.key === 'Enter') btn2.click(); });
-        
-        // Add message to chat display
-        function add(sender, text, type, time) {
-            const d = document.createElement('div');
-            d.className = 'msg ' + type;
-            const t = time || new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
-            d.innerHTML = `<div class="msg-sender">${sender}</div><div class="msg-text">${text.replace(/</g, '&lt;')}</div><div class="msg-time">${t}</div>`;
-            msgs.appendChild(d);
-            msgs.scrollTop = msgs.scrollHeight;
+
+        // Enter key for student ID
+        studentIdInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                continueBtn.click();
+            }
+        });
+
+        // Join chat handler
+        joinBtn.addEventListener('click', () => {
+            const nickname = nicknameInput.value.trim() || 'Anonymous';
+            user.nickname = nickname;
+            user.loggedIn = true;
+            user.loginTime = new Date().toISOString();
+
+            // Handle avatar - use uploaded or default
+            if (previewAvatar.src && previewAvatar.classList.contains('active')) {
+                user.avatar = previewAvatar.src;
+            } else {
+                user.avatar = defaultAvatar;
+            }
+            saveToStorage();
+
+            // Update header display
+            const userAvatarDisplay = document.getElementById('userAvatarDisplay');
+            const userNicknameDisplay = document.getElementById('userNicknameDisplay');
+            userAvatarDisplay.src = user.avatar;
+            userAvatarDisplay.style.display = 'inline-block';
+            userNicknameDisplay.textContent = user.nickname;
+
+            // Show chat
+            loginSection.style.display = 'none';
+            chatSection.classList.add('show');
+
+            // Load or initialize messages
+            if (chatMessages.length === 0) {
+                // Welcome messages
+                const welcomeMessages = [
+                    { sender: 'CoffeeLover', text: 'Hey guys, anyone finished the assignment yet?', time: '10:23 AM', type: 'other' },
+                    { sender: 'NightOwl', text: 'Still working on it... due tomorrow right?', time: '10:25 AM', type: 'other' },
+                    { sender: 'System', text: `Welcome, ${nickname}! 🎉`, time: '10:30 AM', type: 'other' }
+                ];
+                chatMessages = welcomeMessages;
+                saveToStorage();
+            }
+
+            renderMessages();
+            messageInput.focus();
+        });
+
+        // Enter key for nickname
+        nicknameInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                joinBtn.click();
+            }
+        });
+
+        // Profile photo upload handler
+        profilePhoto.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    previewAvatar.src = ev.target.result;
+                    previewAvatar.classList.add('active');
+                    fileLabel.textContent = `✅ ${file.name}`;
+                    fileLabel.classList.add('has-file');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Add message to display
+        function addMessage(sender, text, type, time, save = true, avatar = null) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+
+            // Add avatar for own messages
+            if (type === 'own' && user.avatar) {
+                const avatarDiv = document.createElement('div');
+                avatarDiv.className = 'message-avatar';
+                avatarDiv.innerHTML = `<img src="${user.avatar}" style="width: 32px; height: 32px; border-radius: 50%; margin-bottom: 8px; border: 2px solid white;">`;
+                messageDiv.appendChild(avatarDiv);
+            }
+
+            const senderDiv = document.createElement('div');
+            senderDiv.className = 'message-sender';
+            senderDiv.textContent = sender;
+
+            const textDiv = document.createElement('div');
+            textDiv.className = 'message-text';
+            textDiv.textContent = text;
+
+            const timeDiv = document.createElement('div');
+            timeDiv.className = 'message-time';
+            timeDiv.textContent = time || new Date().toLocaleTimeString('en-US', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            });
+
+            messageDiv.appendChild(senderDiv);
+            messageDiv.appendChild(textDiv);
+            messageDiv.appendChild(timeDiv);
+
+            messagesArea.appendChild(messageDiv);
+            messagesArea.scrollTop = messagesArea.scrollHeight;
+
+            // Save to storage
+            if (save) {
+                chatMessages.push({
+                    sender,
+                    text,
+                    type,
+                    time: timeDiv.textContent,
+                    timestamp: Date.now(),
+                    avatar: avatar || user.avatar
+                });
+                saveToStorage();
+            }
         }
-        
-        // Send user message
-        function send() {
-            const t = txt.value.trim();
-            if (!t) return;
-            add(user.nick, t, 'own');
-            txt.value = '';
-            txt.style.height = 'auto';
+
+        // Render all messages
+        function renderMessages() {
+            messagesArea.innerHTML = '';
+            chatMessages.forEach(msg => {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${msg.type}`;
+
+                // Add avatar for own messages
+                if (msg.type === 'own' && msg.avatar) {
+                    const avatarDiv = document.createElement('div');
+                    avatarDiv.innerHTML = `<img src="${msg.avatar}" style="width: 32px; height: 32px; border-radius: 50%; margin-bottom: 8px; border: 2px solid white;">`;
+                    messageDiv.appendChild(avatarDiv);
+                }
+
+                const senderDiv = document.createElement('div');
+                senderDiv.className = 'message-sender';
+                senderDiv.textContent = msg.sender;
+
+                const textDiv = document.createElement('div');
+                textDiv.className = 'message-text';
+                textDiv.textContent = msg.text;
+
+                const timeDiv = document.createElement('div');
+                timeDiv.className = 'message-time';
+                timeDiv.textContent = msg.time;
+
+                messageDiv.appendChild(senderDiv);
+                messageDiv.appendChild(textDiv);
+                messageDiv.appendChild(timeDiv);
+
+                messagesArea.appendChild(messageDiv);
+            });
+            messagesArea.scrollTop = messagesArea.scrollHeight;
         }
-        
-        // Enter to send, Shift+Enter for new line
-        txt.addEventListener('keypress', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); } });
-        
-        // Auto-resize textarea height
-        txt.addEventListener('input', function() { this.style.height = 'auto'; this.style.height = Math.min(this.scrollHeight, 200) + 'px'; });
+
+        // Send message handler
+        sendBtn.addEventListener('click', sendMessage);
+
+        function sendMessage() {
+            const text = messageInput.value.trim();
+            if (!text) return;
+
+            addMessage(user.nickname, text, 'own');
+            messageInput.value = '';
+            messageInput.style.height = 'auto';
+
+            // Simulate bot response
+            setTimeout(() => {
+                const responses = [
+                    "That's interesting! 🤔",
+                    "I agree with you! 👍",
+                    "Thanks for sharing! 😊",
+                    "Good point! 💡",
+                    "Let me think about that... 🤔"
+                ];
+                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                addMessage('System Bot', randomResponse, 'other');
+            }, 1000 + Math.random() * 2000);
+        }
+
+        // Enter to send
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // Auto-resize textarea
+        messageInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+        });
+
+        // Clear chat
+        clearBtn.addEventListener('click', () => {
+            if (confirm('Clear all messages?')) {
+                chatMessages = [];
+                messagesArea.innerHTML = '';
+                saveToStorage();
+            }
+        });
+
+        // Logout
+        logoutBtn.addEventListener('click', () => {
+            clearStorage();
+            location.reload();
+        });
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadFromStorage();
+
+            // Check if user is logged in via campus user system
+            function checkCampusUser() {
+                if (window.CampusUser && window.CampusUser.isLoggedIn()) {
+                    user = window.CampusUser.getUser();
+
+                    // Skip login form and go directly to chat
+                    loginSection.style.display = 'none';
+                    chatSection.classList.add('show');
+
+                    // Update header display
+                    const userAvatarDisplay = document.getElementById('userAvatarDisplay');
+                    const userNicknameDisplay = document.getElementById('userNicknameDisplay');
+                    userAvatarDisplay.src = user.avatar || defaultAvatar;
+                    userAvatarDisplay.style.display = 'inline-block';
+                    userNicknameDisplay.textContent = user.nickname || 'Anonymous';
+
+                    renderMessages();
+                    messageInput.focus();
+                    return true;
+                }
+                return false;
+            }
+
+            // Try to check immediately
+            if (!checkCampusUser()) {
+                // Wait for campus user to load
+                window.addEventListener('campusUserReady', () => {
+                    checkCampusUser();
+                });
+            }
+        });
     </script>
+    <script>lucide.createIcons();</script>
 </body>
 </html>

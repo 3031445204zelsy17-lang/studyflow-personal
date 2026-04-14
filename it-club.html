@@ -2,24 +2,34 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hong Kong Metropolitan University - Student Clubs</title>
     <style>
         * {margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif;}
         body {
-            padding: 20px;
+            padding: 0;
             background-color: #e6f7ff;
         }
-        .container {max-width: 1200px; margin: 0 auto; text-align: center;}
+        .container {max-width: 1200px; margin: 0 auto; text-align: center; padding: 20px;}
         .title {margin: 20px 0; color: #0056b3; font-size: 28px;}
         .subtitle {margin-bottom: 20px; font-size: 16px; color: #006b48;}
-        
-        /* 3×3 网格布局 核心修改 */
+
+        /* Responsive grid layout */
         .club-list {
             display: grid;
-            grid-template-columns: repeat(3, 180px);
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 25px;
-            justify-content: center;
             margin: 40px 0;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (max-width: 600px) {
+            .club-list {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                gap: 15px;
+            }
         }
         .club-card {
             width: 100%;
@@ -74,13 +84,44 @@
             text-decoration: none;
         }
     </style>
+    <link rel="stylesheet" href="unified-nav.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
+    <!-- Unified Navigation -->
+    <nav class="unified-nav">
+      <div class="unified-nav-container">
+        <a href="index.html" class="unified-nav-logo">
+          <div class="unified-nav-logo-icon"><i data-lucide="graduation-cap" class="w-5 h-5 text-white"></i></div>
+          <div>
+            <div class="unified-nav-logo-text">HKMU Campus Forum</div>
+            <div class="unified-nav-logo-subtitle">All-in-One Campus Service Platform</div>
+          </div>
+          <span class="unified-nav-badge">IT Club</span>
+        </a>
+        <div class="unified-nav-links">
+          <a href="index.html" class="unified-nav-link home"><i data-lucide="home" class="w-4 h-4"></i> Home</a>
+          <a href="dsai-planner.html" class="unified-nav-link"><i data-lucide="book-open" class="w-4 h-4"></i> DSAI</a>
+          <a href="hkmu-news.html" class="unified-nav-link"><i data-lucide="newspaper" class="w-4 h-4"></i> News</a>
+          <a href="student-forum.html" class="unified-nav-link"><i data-lucide="message-circle" class="w-4 h-4"></i> Forum</a>
+          <a href="lost-found.html" class="unified-nav-link"><i data-lucide="search" class="w-4 h-4"></i> Lost & Found</a>
+        </div>
+        <button class="unified-nav-menu-btn" onclick="document.querySelector('.unified-nav-dropdown').classList.toggle('active')"><i data-lucide="menu" class="w-6 h-6 text-white"></i></button>
+      </div>
+      <div class="unified-nav-dropdown">
+        <a href="index.html"><i data-lucide="home" class="w-4 h-4"></i> Home</a>
+        <a href="dsai-planner.html"><i data-lucide="book-open" class="w-4 h-4"></i> DSAI Planner</a>
+        <a href="hkmu-news.html"><i data-lucide="newspaper" class="w-4 h-4"></i> HKMU News</a>
+        <a href="student-forum.html"><i data-lucide="message-circle" class="w-4 h-4"></i> Student Forum</a>
+        <a href="lost-found.html"><i data-lucide="search" class="w-4 h-4"></i> Lost & Found</a>
+      </div>
+    </nav>
+
 <div class="container" id="top">
     <h1 class="title">Hong Kong Metropolitan University - Student Clubs</h1>
     <p class="subtitle">9 Featured Clubs, Enrich Your Campus Life</p>
 
-    <!-- 3×3 社团卡片 -->
+    <!-- Club Cards Grid -->
     <div class="club-list">
         <div class="club-card"><img src="https://picsum.photos/seed/cantonese-study/300/200" alt="Cantonese Club"><a href="#cantonese">Cantonese Club</a></div>
         <div class="club-card"><img src="https://picsum.photos/seed/japanese-learn/300/200" alt="Japanese Club"><a href="#japanese">Japanese Club</a></div>
@@ -93,7 +134,7 @@
         <div class="club-card"><img src="https://picsum.photos/seed/anime-cosplay/300/200" alt="Anime Club"><a href="#anime">Anime Club</a></div>
     </div>
 
-    <!-- 全英文社团详情 -->
+    <!-- Club Details -->
     <div id="cantonese" class="detail">
         <img src="https://picsum.photos/seed/cantonese-study/400/300" alt="Cantonese Club">
         <div class="detail-content">
@@ -220,5 +261,6 @@
         </div>
     </div>
 </div>
+<script>lucide.createIcons();</script>
 </body>
 </html>

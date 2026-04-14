@@ -1,0 +1,198 @@
+<!--
+  Unified Navigation Bar Component
+  Copy this code to the <body> section of each module page
+  Place it right after the <body> tag or at the top of the page
+-->
+<link rel="stylesheet" href="unified-nav.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<nav class="unified-nav">
+  <div class="unified-nav-container">
+    <a href="index.html" class="unified-nav-logo">
+      <div class="unified-nav-logo-icon"><i data-lucide="graduation-cap" class="w-5 h-5 text-white"></i></div>
+      <div>
+        <div class="unified-nav-logo-text">HKMU Campus Forum</div>
+        <div class="unified-nav-logo-subtitle">All-in-One Campus Service Platform</div>
+      </div>
+      <span class="unified-nav-badge" id="nav-module-name">Module</span>
+    </a>
+
+    <div class="unified-nav-links">
+      <a href="index.html" class="unified-nav-link home"><i data-lucide="home" class="w-4 h-4"></i> Home</a>
+      <a href="dsai-planner.html" class="unified-nav-link"><i data-lucide="book-open" class="w-4 h-4"></i> DSAI</a>
+      <a href="hkmu-news.html" class="unified-nav-link"><i data-lucide="newspaper" class="w-4 h-4"></i> News</a>
+      <a href="student-forum.html" class="unified-nav-link"><i data-lucide="message-circle" class="w-4 h-4"></i> Forum</a>
+      <a href="lost-found.html" class="unified-nav-link"><i data-lucide="search" class="w-4 h-4"></i> Lost & Found</a>
+      <a href="it-club.html" class="unified-nav-link"><i data-lucide="monitor" class="w-4 h-4"></i> IT Club</a>
+    </div>
+
+    <div class="unified-nav-user" id="navUserWidget">
+      <a href="index.html" class="unified-nav-login-btn">Login</a>
+    </div>
+
+    <button class="unified-nav-menu-btn" onclick="document.querySelector('.unified-nav-dropdown').classList.toggle('active')">
+      <i data-lucide="menu" class="w-6 h-6 text-white"></i>
+    </button>
+  </div>
+
+  <div class="unified-nav-dropdown">
+    <a href="index.html"><i data-lucide="home" class="w-4 h-4"></i> Home</a>
+    <a href="dsai-planner.html"><i data-lucide="book-open" class="w-4 h-4"></i> DSAI Planner</a>
+    <a href="hkmu-news.html"><i data-lucide="newspaper" class="w-4 h-4"></i> HKMU News</a>
+    <a href="student-forum.html"><i data-lucide="message-circle" class="w-4 h-4"></i> Student Forum</a>
+    <a href="lost-found.html"><i data-lucide="search" class="w-4 h-4"></i> Lost & Found</a>
+    <a href="it-club.html"><i data-lucide="monitor" class="w-4 h-4"></i> IT Club</a>
+  </div>
+</nav>
+
+<script src="js/campus-user.js"></script>
+
+<script>
+  function updateNavUserWidget() {
+    const navUserWidget = document.getElementById('navUserWidget');
+    if (!navUserWidget) return;
+
+    if (window.CampusUser && window.CampusUser.isLoggedIn()) {
+      const user = window.CampusUser.getUser();
+      navUserWidget.innerHTML = `
+        <div class="unified-nav-user-info">
+          <img src="${user.avatar}" alt="Avatar" class="unified-nav-user-avatar">
+          <span class="unified-nav-user-name">${user.nickname}</span>
+          <button class="unified-nav-logout-btn" onclick="handleNavLogout()">Logout</button>
+        </div>
+      `;
+    } else {
+      navUserWidget.innerHTML = `
+        <a href="index.html" class="unified-nav-login-btn">Login</a>
+      `;
+    }
+  }
+
+  function handleNavLogout() {
+    if (window.CampusUser && confirm('Are you sure you want to logout?')) {
+      window.CampusUser.logout();
+      updateNavUserWidget();
+      window.location.href = 'index.html';
+    }
+  }
+
+  function initNavUserWidget() {
+    if (window.CampusUser) {
+      updateNavUserWidget();
+      window.CampusUser.onChange(updateNavUserWidget);
+    } else {
+      document.addEventListener('campusUserReady', () => {
+        updateNavUserWidget();
+      });
+    }
+    // Initialize Lucide icons in nav
+    if (window.lucide) lucide.createIcons();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initNavUserWidget);
+  } else {
+    initNavUserWidget();
+  }
+
+  (function() {
+    const path = window.location.pathname;
+    const moduleNameMap = {
+      'dsai-planner': 'DSAI Planner',
+      'dsai-course-detail': 'Course Detail',
+      'hkmu-news': 'News Portal',
+      'student-forum': 'Student Forum',
+      'lost-found': 'Lost & Found',
+      'it-club': 'IT Club'
+    };
+
+    for (const [key, name] of Object.entries(moduleNameMap)) {
+      if (path.includes(key)) {
+        const badge = document.getElementById('nav-module-name');
+        if (badge) badge.textContent = name;
+        break;
+      }
+    }
+  })();
+</script>
+
+<style>
+  .unified-nav-user {
+    display: flex;
+    align-items: center;
+  }
+
+  .unified-nav-login-btn {
+    padding: 8px 16px;
+    background: linear-gradient(135deg, #0066CC, #2E7D52);
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+
+  .unified-nav-login-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+  }
+
+  .unified-nav-user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+  }
+
+  .unified-nav-user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+  }
+
+  .unified-nav-user-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .unified-nav-logout-btn {
+    padding: 4px 10px;
+    background: rgba(239, 68, 68, 0.8);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .unified-nav-logout-btn:hover {
+    background: rgba(239, 68, 68, 1);
+  }
+
+  .unified-nav-link svg {
+    vertical-align: -2px;
+  }
+
+  .unified-nav-dropdown a svg {
+    vertical-align: -2px;
+    margin-right: 2px;
+  }
+
+  @media (max-width: 768px) {
+    .unified-nav-user {
+      display: none;
+    }
+  }
+</style>

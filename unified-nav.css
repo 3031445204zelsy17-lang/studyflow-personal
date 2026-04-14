@@ -1,0 +1,154 @@
+/**
+ * Unified Navigation Bar for Campus Forum
+ * Add this CSS to any page that needs the navigation
+ */
+
+.unified-nav {
+  background: linear-gradient(135deg, #0066CC 0%, #2E7D52 100%);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.unified-nav-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+}
+
+.unified-nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: white;
+}
+
+.unified-nav-logo:hover {
+  opacity: 0.9;
+}
+
+.unified-nav-logo-icon {
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.unified-nav-logo-text {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.unified-nav-logo-subtitle {
+  font-size: 12px;
+  opacity: 0.9;
+  font-weight: 400;
+}
+
+.unified-nav-links {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.unified-nav-link {
+  padding: 8px 16px;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  background: rgba(255, 255, 255, 0.1);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.unified-nav-link:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.unified-nav-link.home {
+  background: rgba(255, 255, 255, 0.25);
+  font-weight: 600;
+}
+
+/* Mobile menu button */
+.unified-nav-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 8px;
+}
+
+/* Mobile dropdown */
+.unified-nav-dropdown {
+  display: none;
+  position: absolute;
+  top: 60px;
+  left: 0;
+  right: 0;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 12px;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.unified-nav-dropdown.active {
+  display: flex;
+}
+
+.unified-nav-dropdown a {
+  padding: 12px 16px;
+  color: #1A1A2E;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.unified-nav-dropdown a:hover {
+  background: #f0f0f0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .unified-nav-links {
+    display: none;
+  }
+
+  .unified-nav-menu-btn {
+    display: block;
+  }
+}
+
+/* Page title badge */
+.unified-nav-badge {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  margin-left: 8px;
+}

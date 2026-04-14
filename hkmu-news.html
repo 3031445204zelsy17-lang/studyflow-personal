@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HKMU - Campus News</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Segoe UI", Arial, sans-serif; }
         body { background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%); min-height: 100vh; }
@@ -45,14 +46,45 @@
         .file-btn { padding: 8px 16px; background: #00acc1; color: white; border-radius: 6px; cursor: pointer; display: inline-block; }
         .file-btn:hover { background: #00838f; }
     </style>
+    <link rel="stylesheet" href="unified-nav.css">
 </head>
 <body>
+    <!-- Unified Navigation -->
+    <nav class="unified-nav">
+      <div class="unified-nav-container">
+        <a href="index.html" class="unified-nav-logo">
+          <div class="unified-nav-logo-icon"><i data-lucide="graduation-cap" class="w-5 h-5 text-white"></i></div>
+          <div>
+            <div class="unified-nav-logo-text">HKMU Campus Forum</div>
+            <div class="unified-nav-logo-subtitle">All-in-One Campus Service Platform</div>
+          </div>
+          <span class="unified-nav-badge">News Portal</span>
+        </a>
+        <div class="unified-nav-links">
+          <a href="index.html" class="unified-nav-link home"><i data-lucide="home" class="w-4 h-4"></i> Home</a>
+          <a href="dsai-planner.html" class="unified-nav-link"><i data-lucide="book-open" class="w-4 h-4"></i> DSAI</a>
+          <a href="student-forum.html" class="unified-nav-link"><i data-lucide="message-circle" class="w-4 h-4"></i> Forum</a>
+          <a href="lost-found.html" class="unified-nav-link"><i data-lucide="search" class="w-4 h-4"></i> Lost & Found</a>
+          <a href="it-club.html" class="unified-nav-link"><i data-lucide="monitor" class="w-4 h-4"></i> IT Club</a>
+        </div>
+        <button class="unified-nav-menu-btn" onclick="document.querySelector('.unified-nav-dropdown').classList.toggle('active')">☰</button>
+      </div>
+      <div class="unified-nav-dropdown">
+        <a href="index.html"><i data-lucide="home" class="w-4 h-4"></i> Home</a>
+        <a href="dsai-planner.html"><i data-lucide="book-open" class="w-4 h-4"></i> DSAI Planner</a>
+        <a href="student-forum.html"><i data-lucide="message-circle" class="w-4 h-4"></i> Student Forum</a>
+        <a href="lost-found.html"><i data-lucide="search" class="w-4 h-4"></i> Lost & Found</a>
+        <a href="it-club.html"><i data-lucide="monitor" class="w-4 h-4"></i> IT Club</a>
+      </div>
+    </nav>
+
     <header>
-        <h1>🏫 HKMU - Campus News Portal</h1>
+        <h1>HKMU - Campus News Portal</h1>
         <div id="loginBox">
             <input type="text" id="staffId" placeholder="Staff ID" maxlength="8">
             <input type="text" id="staffName" placeholder="Name">
             <button onclick="login()">Login</button>
+            <a href="index.html" style="padding: 8px 18px; background: #2E7D52; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 500; text-decoration: none; display: inline-block;">Unified Login</a>
         </div>
         <div id="adminInfo">
             <span id="welcomeText"></span>
@@ -63,7 +95,7 @@
 
     <div class="container">
         <div id="adminPanel">
-            <h2>📰 Add New Announcement</h2>
+            <h2>Add New Announcement</h2>
             <div class="form-group">
                 <label>Title</label>
                 <input type="text" id="newsTitle" placeholder="Enter news title">
@@ -109,10 +141,12 @@
         81 Chung Hau Street, Homantin, Kowloon, Hong Kong
     </footer>
 
+    <!-- Unified user management -->
+    <script src="js/campus-user.js"></script>
     <script>
         let currentAdmin = null;
         let uploadedImage = null;
-        
+
         // Preset news with images
         let newsList = [
             { id: 1, title: "2025 Graduation Ceremony in May", category: "Event", source: "Academic Affairs Office", date: "2025-03-05", content: "The 2025 Graduation Ceremony will be held from May 15-17 at the Hong Kong Convention and Exhibition Centre. Over 3,000 graduates will participate. Please check your email for registration details.", image: "images/img_graduation.jpg" },
@@ -121,7 +155,28 @@
             { id: 4, title: "Career Fair Next Month", category: "Career", source: "Career Centre", date: "2025-02-28", content: "The Spring Career Fair will be held on April 12 at the Main Campus. Over 50 companies from finance, technology, education, and public services will participate. Prepare your resume!", image: "images/img_career.jpg" }
         ];
 
+        // Check unified user login status
+        function checkCampusUserLogin() {
+            if (window.CampusUser && window.CampusUser.isLoggedIn()) {
+                const user = window.CampusUser.getUser();
+                currentAdmin = { id: user.studentId, name: user.nickname };
+                document.getElementById('loginBox').style.display = 'none';
+                document.getElementById('adminInfo').style.display = 'block';
+                document.getElementById('welcomeText').textContent = `Welcome, ${user.nickname}`;
+                document.getElementById('adminPanel').style.display = 'block';
+                renderNews();
+                return true;
+            }
+            return false;
+        }
+
         function login() {
+            // Check unified login first
+            if (checkCampusUserLogin()) {
+                return;
+            }
+
+            // Fallback to standalone login
             const id = document.getElementById('staffId').value.trim();
             const name = document.getElementById('staffName').value.trim();
             if (!id || id.length !== 8 || !/^\d+$/.test(id)) { alert('Please enter a valid 8-digit Staff ID'); return; }
@@ -135,6 +190,11 @@
         }
 
         function logout() {
+            // Use unified logout if logged in via CampusUser
+            if (window.CampusUser && window.CampusUser.isLoggedIn()) {
+                window.CampusUser.logout();
+            }
+
             currentAdmin = null;
             document.getElementById('staffId').value = '';
             document.getElementById('staffName').value = '';
@@ -143,6 +203,17 @@
             document.getElementById('adminPanel').style.display = 'none';
             renderNews();
         }
+
+        // Check unified user login on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Try immediately
+            if (!checkCampusUserLogin()) {
+                // Wait for CampusUser to load
+                window.addEventListener('campusUserReady', () => {
+                    checkCampusUserLogin();
+                });
+            }
+        });
 
         function previewImage(event) {
             const file = event.target.files[0];
@@ -206,6 +277,7 @@
 
         document.getElementById('staffName').addEventListener('keypress', e => { if (e.key === 'Enter') login(); });
         renderNews();
+        lucide.createIcons();
     </script>
 </body>
 </html>

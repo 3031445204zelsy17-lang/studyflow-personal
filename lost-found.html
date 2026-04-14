@@ -31,8 +31,39 @@
             object-fit: cover;
         }
     </style>
+    <link rel="stylesheet" href="unified-nav.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
+    <!-- Unified Navigation -->
+    <nav class="unified-nav">
+      <div class="unified-nav-container">
+        <a href="index.html" class="unified-nav-logo">
+          <div class="unified-nav-logo-icon"><i data-lucide="graduation-cap" class="w-5 h-5 text-white"></i></div>
+          <div>
+            <div class="unified-nav-logo-text">HKMU Campus Forum</div>
+            <div class="unified-nav-logo-subtitle">All-in-One Campus Service Platform</div>
+          </div>
+          <span class="unified-nav-badge">Lost & Found</span>
+        </a>
+        <div class="unified-nav-links">
+          <a href="index.html" class="unified-nav-link home"><i data-lucide="home" class="w-4 h-4"></i> Home</a>
+          <a href="dsai-planner.html" class="unified-nav-link"><i data-lucide="book-open" class="w-4 h-4"></i> DSAI</a>
+          <a href="hkmu-news.html" class="unified-nav-link"><i data-lucide="newspaper" class="w-4 h-4"></i> News</a>
+          <a href="student-forum.html" class="unified-nav-link"><i data-lucide="message-circle" class="w-4 h-4"></i> Forum</a>
+          <a href="it-club.html" class="unified-nav-link"><i data-lucide="monitor" class="w-4 h-4"></i> IT Club</a>
+        </div>
+        <button class="unified-nav-menu-btn" onclick="document.querySelector('.unified-nav-dropdown').classList.toggle('active')"><i data-lucide="menu" class="w-6 h-6 text-white"></i></button>
+      </div>
+      <div class="unified-nav-dropdown">
+        <a href="index.html"><i data-lucide="home" class="w-4 h-4"></i> Home</a>
+        <a href="dsai-planner.html"><i data-lucide="book-open" class="w-4 h-4"></i> DSAI Planner</a>
+        <a href="hkmu-news.html"><i data-lucide="newspaper" class="w-4 h-4"></i> HKMU News</a>
+        <a href="student-forum.html"><i data-lucide="message-circle" class="w-4 h-4"></i> Student Forum</a>
+        <a href="it-club.html"><i data-lucide="monitor" class="w-4 h-4"></i> IT Club</a>
+      </div>
+    </nav>
+
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Lost and Found</a>
@@ -88,7 +119,7 @@
                 <input type="text" id="location" class="form-control" required>
             </div>
             <div class="mb-3">
-                <label for="date" class="form-label">Data</label>
+                <label for="date" class="form-label">Date</label>
                 <input type="date" id="date" class="form-control" required>
             </div>
             <div class="mb-3">
@@ -197,6 +228,7 @@
             
             renderItems();
         });
+        lucide.createIcons();
     </script>
 </body>
 </html>

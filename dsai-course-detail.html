@@ -266,5 +266,6 @@ function showToast(msg,type='info') {
   t.className=`toast ${type}`; document.getElementById('toast-icon').setAttribute('data-lucide',icons[type]); document.getElementById('toast-message').textContent=msg; t.classList.add('show'); lucide.createIcons(); setTimeout(()=>t.classList.remove('show'),3000);
 }
 </script>
+<script src="bridge.js"></script>
 </body>
 </html>
